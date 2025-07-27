@@ -4,7 +4,20 @@ permalink: index.html
 layout: home
 ---
 
-# Catatan Penting
+# Tentang Halaman ini
+Dokumentasi lab pada halaman ini merupakan versi yang telah disederhanakan dari Microsoft Official Course AZ-104: Microsoft Azure Administrator.
+
+📝 Catatan Penting:
+
+Konten disusun ulang agar lebih mudah dipahami oleh peserta pelatihan lokal.
+
+Beberapa langkah telah diringkas, diberi penjelasan tambahan, atau diadaptasi untuk kebutuhan praktikum secara mandiri.
+
+Semua hak cipta asli tetap dimiliki oleh Microsoft.
+
+🔗 Sumber Asli:
+AZ-104 Microsoft Learning GitHub Repository
+
 
 # Konten Folder
 
