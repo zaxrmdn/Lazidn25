@@ -4,26 +4,67 @@ permalink: index.html
 layout: home
 ---
 
-# Tentang Halaman ini
-Dokumentasi lab pada halaman ini merupakan versi yang telah disederhanakan dari Microsoft Official Course AZ-104: Microsoft Azure Administrator.
----
+# 📘 Dokumentasi Lab AZ-104 (Versi Sederhana)
 
-📝 Catatan Penting:
-
-Konten disusun ulang agar lebih mudah dipahami oleh peserta pelatihan lokal.
-
-Beberapa langkah telah diringkas, diberi penjelasan tambahan, atau diadaptasi untuk kebutuhan praktikum secara mandiri.
-
-Semua hak cipta asli tetap dimiliki oleh Microsoft.
+Halaman ini berisi dokumentasi lab yang telah **disederhanakan** dan **diadaptasi** dari sumber resmi Microsoft untuk kursus **AZ-104: Microsoft Azure Administrator**.
 
 ---
-🔗 Sumber Asli:
-AZ-104 Microsoft Learning GitHub Repository
+
+## 📄 Tentang Halaman Ini
+
+Materi pada halaman ini berasal dari repositori resmi Microsoft Learning, namun telah dimodifikasi dengan tujuan:
+
+- ✅ Mempermudah pemahaman bagi peserta pelatihan lokal
+- ✅ Menyederhanakan langkah-langkah tanpa menghilangkan esensi
+- ✅ Memberikan tambahan penjelasan kontekstual sesuai kebutuhan
+
+> **Sumber Asli:**
+> [github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator](https://github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator)
+
+---
+
+## 🧭 Tujuan Adaptasi
+
+Modifikasi ini dilakukan untuk:
+
+- Membantu pemula memahami konsep Azure lebih cepat
+- Digunakan dalam workshop atau kelas pelatihan intensif
+- Menyesuaikan istilah dan instruksi agar lebih familiar
+
+---
+
+## ⚠️ Hak Cipta
+
+> Materi asli merupakan hak cipta © Microsoft.  
+> Adaptasi ini dibuat hanya untuk keperluan pembelajaran, pelatihan.  
+
+---
+
+## 🙋 Kontak
+
+Jika kamu memiliki pertanyaan, saran, atau masukan terkait lab ini, silakan hubungi:
+
+**Zakaria Ramadan**  
+📧 [zakaria@idn.id](mailto:zakaria@idn.id)  
+🌐 [https://zakaria.web.id](https://zakaria.web.id)
+
+---
+
+Terima kasih telah menggunakan materi ini! Semoga bermanfaat dalam proses belajarmu tentang Azure ☁️
+
 
 
 # Konten Folder
 
 File lab yang diperlukan dapat [Download Disini](https://github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator/archive/master.zip)
+
+## Demonstrasi
+
+{% assign demos = site.pages | where_exp:"page", "page.url contains '/Instructions/Demos'" %}
+| Module | Demonstration |
+| --- | --- | 
+{% for activity in demos  %}| {{ activity.demo.module }} | [{{ activity.demo.title }}]({{ site.github.url }}{{ activity.url }}) |
+{% endfor %}
 
 ## Panduan Lab
 
@@ -33,10 +74,8 @@ File lab yang diperlukan dapat [Download Disini](https://github.com/MicrosoftLea
 {% for activity in labs  %}| {{ activity.lab.module }} | [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) |
 {% endfor %}
 
-## Demonstrasi
+## Interaktif Lab (Non-Praktek)
+https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator
 
-{% assign demos = site.pages | where_exp:"page", "page.url contains '/Instructions/Demos'" %}
-| Module | Demonstration |
-| --- | --- | 
-{% for activity in demos  %}| {{ activity.demo.module }} | [{{ activity.demo.title }}]({{ site.github.url }}{{ activity.url }}) |
-{% endfor %}
+
+> 🛈 Catatan: Lab ini merupakan versi modifikasi dari materi resmi Microsoft AZ-104. Beberapa bagian telah disederhanakan dan disesuaikan untuk pembelajaran lokal.
