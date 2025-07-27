@@ -7,7 +7,8 @@ demo:
 
 ## Demonstration -- Azure Portal
 
-In this demonstration, we will explore the Azure portal.
+
+Dalam demonstrasi ini, kita akan menjelajahi portal Azure.
 
 **Reference**: [Manage Azure portal settings and preferences](https://docs.microsoft.com/azure/azure-portal/set-preferences)
 
@@ -15,76 +16,68 @@ In this demonstration, we will explore the Azure portal.
 
 **Reference**: [How to create an Azure support request](https://docs.microsoft.com/azure/azure-portal/supportability/how-to-create-azure-support-request)
 
-1. Access the Azure Portal.
+### Langkah-langkah:
 
-1. Select  the **Support & Troubleshooting** icon on the top banner. Review the **Support resources** links. 
+1. Akses **Azure Portal**.
+2. Klik ikon **Support & Troubleshooting** di bagian atas. Tinjau tautan **Support resources**.
+3. Klik ikon **Settings** di bagian atas. Tinjau pengaturan **Appearance + startup views**.
+4. Gunakan menu di sisi kiri dan pilih **Dashboard**. Klik **Edit**, lalu gunakan **Tile Gallery** untuk menyesuaikan tampilan dashboard.
+5. Tunjukkan cara mencari dan menemukan sumber daya (*resources*).
+6. Gunakan menu pojok kiri atas untuk membuka **All services**.
+7. Jika waktu memungkinkan, tinjau fitur-fitur lainnya.
+8. Ajak peserta untuk bertanya jika ada yang belum dipahami.
 
-1. Select the **Settings** icon on the top banner. Review **Appearance + startup views** settings. 
+---
 
-1. Use the left-side menu and select **Dashboard**. **Edit** the dashboard using the **Tile Gallery**. Discuss customization options.
+## ☁️ Demonstrasi — Cloud Shell
 
-1. Show how to search for and locate resources.
+Dalam bagian ini, kita akan bereksperimen dengan **Azure Cloud Shell**.
 
-1. Use the upper left menu to locate **All services**. 
+📚 **Referensi**:  
+[Quickstart: Azure Cloud Shell](https://learn.microsoft.com/en-us/azure/cloud-shell/quickstart?tabs=azurecli)
 
-1. As you have time review other features.
-   
-1. Ask if the students have any questions.
+### 🔧 Mengonfigurasi Cloud Shell
 
-## Demonstration -- Cloud Shell
+1. Masuk ke **Azure Portal**.
+2. Klik ikon **Cloud Shell** di bagian atas.
+3. Di halaman "Welcome to the Shell", pilih antara **Bash** atau **PowerShell**. Pilih **PowerShell**.
+4. Bahas bahwa Cloud Shell membutuhkan **Azure File Share** untuk menyimpan file. Jika diperlukan, buat storage-nya terlebih dahulu.
 
-In this demonstration, we will experiment with Cloud Shell.
+### 🧪 Mencoba PowerShell dan Bash di Cloud Shell
 
-**Reference**: [Quickstart for Azure Cloud Shell](https://learn.microsoft.com/en-us/azure/cloud-shell/quickstart?tabs=azurecli)
+1. Pastikan mode **PowerShell** aktif, lalu coba beberapa perintah seperti:
+   - `Get-AzSubscription`
+   - `Get-AzResourceGroup`
+2. Tunjukkan fitur auto-complete, serta perintah seperti `cls` untuk membersihkan layar.
+3. Beralih ke **Bash**, lalu coba perintah:
+   - `az account list`
+   - `az resource list`
+4. Ajak peserta untuk bertanya jika ada kebingungan terkait perintah PowerShell atau Bash.
 
-**Configure the Cloud Shell**
+### 📝 Mencoba Cloud Shell Editor (opsional)
 
-1.  Access the **Azure Portal**.
+1. Klik ikon **kurung kurawal** (`{}`) untuk membuka editor.
+2. Pilih file dari panel navigasi kiri, misalnya `.profile`.
+3. Tinjau menu editor di bagian atas (ukuran teks, font, unggah/unduh).
+4. Klik ikon titik tiga (...) di kanan atas untuk melihat opsi **Save**, **Close Editor**, dan **Open File**.
+5. Bereksperimen sebentar, lalu **tutup editor** dan **tutup Cloud Shell**.
 
-1.  Click the **Cloud Shell** icon on the top banner.
+---
 
-1.  On the Welcome to the Shell page, notice your selections for Bash or PowerShell. Select **PowerShell**.
+## ⚡ Demonstrasi — QuickStart Templates
 
-1.  Discuss how the Azure Cloud Shell requires an Azure file share to persist files. If necessary, configure the storage share. 
+Dalam demonstrasi ini, kita akan menjelajahi **QuickStart Templates**.
 
-**Experiment with Azure PowerShell and Bash**
+📚 **Referensi**:  
+[Tutorial: Membuat dan menjalankan template ARM](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template-tutorial-create-first-template?tabs=azure-powershell)
 
-1. Ensure the **PowerShell** shell is selected and try a few commands. For example, **Get-AzSubscription** and **Get-AzResourceGroup**.
+### Langkah-langkah:
 
-1. Show how auto-complete works. Show how to clear the screen, **cls**. 
-
-1. Ensure the **Bash** shell is selected and try a few commands. For example, **az account list** and **az resource list**.
-
-1. Ask if students have any questions on using the PowerShell or Bash commands. 
-
-**Experiment with the Cloud shell editor (optional)**
-
-1. To use the Cloud Editor, select the **curly braces** icon.
-
-1. Select a file from the left navigation pane. For example, **.profile**.
-
-1. Notice on the editor top banner, selections for Settings (Text Size and Font) and Upload/Download files.
-
-1. Notice on the ellipsis (**\...**) on the far right for **Save**, **Close Editor**, and **Open File**.
-
-1. Experiment as you have time, then **close** the Cloud Editor.
-
-1. Close the Cloud Shell.
-
-## Demonstration -- QuickStart Templates
-
-In this demonstration, we will explore QuickStart templates.
-
-**Reference**: [Tutorial - Create & deploy template - Azure Resource Manager](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template-tutorial-create-first-template?tabs=azure-powershell)
-
-1. Start by browsing to the [Azure Quickstart Templates gallery](https://learn.microsoft.com/en-us/samples/browse/?expanded=azure&products=azure-resource-manager). Notice there are JSON and Bicep examples. 
-
-1. Ask students if there are any specific templates that are of interest. If not, select a template. For example, the [Deploy a simple Windows VM with tags](https://learn.microsoft.com/en-us/samples/azure/azure-quickstart-templates/vm-tags/) template.
-
-1. Discuss how the **Deploy to Azure** button enables you to deploy the template directly through the Azure portal.
-
-1. **Deploy** the JSON template and discuss how you can edit the template and parameters file. Review the purpose of the files. As you have time, review the syntax. 
-
-1. Return to the code samples gallery, and locate a Bicep template. For example, [Create a Create a Standard Storage Account](https://learn.microsoft.com/en-us/samples/azure/azure-quickstart-templates/storage-account-create/). 
-
-1. **Deploy** the Bicep template and discuss how you can edit the template and parameters file. As you have time, review the syntax. 
+1. Kunjungi [galeri Azure Quickstart Templates](https://learn.microsoft.com/en-us/samples/browse/?expanded=azure&products=azure-resource-manager). Tinjau contoh **JSON** dan **Bicep**.
+2. Tanyakan kepada peserta apakah ada template tertentu yang menarik. Jika tidak, pilih satu contoh, misalnya:  
+   [Deploy a simple Windows VM with tags](https://learn.microsoft.com/en-us/samples/azure/azure-quickstart-templates/vm-tags/)
+3. Bahas fitur **Deploy to Azure**, yang memungkinkan Anda mengirim template langsung ke portal.
+4. Lakukan **deploy** template JSON, bahas cara mengedit file template dan parameter. Jika ada waktu, tinjau sintaks JSON-nya.
+5. Kembali ke galeri dan pilih contoh **template Bicep**, misalnya:  
+   [Create a Standard Storage Account](https://learn.microsoft.com/en-us/samples/azure/azure-quickstart-templates/storage-account-create/)
+6. Lakukan **deploy** template Bicep, dan ulangi pembahasan tentang file template serta parameternya. Jika ada waktu, bahas juga sintaks Bicep.

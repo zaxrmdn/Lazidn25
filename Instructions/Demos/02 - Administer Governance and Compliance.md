@@ -9,7 +9,7 @@ demo:
 
 ## Configure Subscriptions
 
-This area does not have a formal demonstration. 
+Bagian ini **tidak memiliki demonstrasi formal**. 
 
 **Reference**: [Create an additional Azure subscription](https://docs.microsoft.com/azure/cost-management-billing/manage/create-subscription)
 
@@ -21,59 +21,60 @@ In this demonstration, we will work with Azure policies.
 
 **Assign a policy**
 
-1.  Access the Azure portal.
+1. Masuk ke **Azure Portal**.
 
-2.  Search for and select **Policy**.
+2. Cari dan pilih menu **Policy**.
 
-3.  Select **Assignments** and then **Assign Policy**.
+3. Buka tab **Assignments** dan klik **Assign Policy**.
 
-5.  Discuss the **Scope** which determines what resources or grouping of resources the policy assignment is enforced on.
+4. Bahas bagian **Scope**, yang menentukan cakupan sumber daya yang dipengaruhi oleh kebijakan.
 
-6.  Select the **Policy definition** ellipsis to open the list of available definitions. Take some time to review the built-in policy definitions.
+5. Klik ikon titik tiga pada **Policy definition** untuk melihat daftar definisi kebijakan yang tersedia.
 
-7.  Search for and select the **Allowed locations** policy. This policy enables you to restrict the locations your organization can specify when deploying resources.
+6. Cari dan pilih kebijakan **Allowed locations** – kebijakan ini membatasi lokasi sumber daya yang bisa digunakan organisasi.
 
-8.  Move the **Parameters** tab and using the drop-down select one or more allowed locations.
+7. Buka tab **Parameters** dan pilih satu atau beberapa lokasi yang diizinkan.
 
-9.  Click **Review + create** and then **Create** to create the policy.
+8. Klik **Review + create**, lalu **Create** untuk menerapkan kebijakan.
+
 
 **Create and assign an initiative definition**
 
-1.  Return to the Azure Policy page and select **Definitions** under Authoring.
+1. Kembali ke halaman utama **Azure Policy** dan pilih **Definitions** di bawah bagian *Authoring*.
 
-2.  Select **Initiative Definition** at the top of the page.
+2. Klik **Initiative Definition** di bagian atas halaman.
 
-3.  Provide a **Name** and **Description**.
+3. Isi **Nama** dan **Deskripsi** untuk inisiatif.
 
-4.  **Create new** Category.
+4. Buat **Kategori baru** (Create new category).
 
-5.  From the right panel **Add** the **Allowed locations** policy.
+5. Tambahkan kebijakan **Allowed locations** dari panel kanan.
 
-6.  Add one additional policy of your choosing.
+6. Tambahkan satu kebijakan tambahan pilihan Anda.
 
-7.  **Save** your changes and then **Assign** your initiative definition to your subscription.
+7. Klik **Save**, lalu **Assign** inisiatif ke subscription Anda.
 
 **Check for compliance**
 
-1.  Return to the Azure Policy service page.
+1. Kembali ke layanan **Azure Policy**.
 
-2.  Select **Compliance**.
+2. Pilih tab **Compliance**.
 
-3.  Review the status of your policy and your definition.
+3. Tinjau status kebijakan dan inisiatif yang telah diterapkan.
 
 **Check for remediation tasks**
 
-1.  Return to the Azure Policy service page.
+1. Masuk kembali ke layanan **Azure Policy**.
 
-2.  Select **Remediation**.
+2. Pilih tab **Remediation**.
 
-3.  Review any remediation tasks that are listed.
+3. Tinjau semua tugas remediasi yang muncul.
 
-4. As you have time, remove the policy and the initiative. 
+4. Bila sudah tidak diperlukan, hapus kebijakan dan inisiatif.
 
 ## Configure Role-Based Access Control
 
-In this demonstration, we will learn about role assignments.
+Dalam bagian ini kita akan belajar tentang penetapan peran (role assignments).
 
 **Reference**: [Tutorial: Grant a user access to Azure resources using the Azure portal - Azure RBAC](https://docs.microsoft.com/azure/role-based-access-control/quickstart-assign-role-user-portal)
 
@@ -81,32 +82,31 @@ In this demonstration, we will learn about role assignments.
 
 **Locate Access Control blade**
 
-1.  Access the Azure portal and select a resource group. Make a note of what resource group you use.
 
-2.  Select the **Access Control (IAM)** blade.
+1. Masuk ke **Azure Portal** dan pilih salah satu **Resource Group**. Catat nama resource group yang digunakan.
 
-3.  This blade will be available for many different resources so you can control permissions.
+2. Pilih menu **Access Control (IAM)**.
+
+3. Panel ini tersedia di berbagai jenis sumber daya untuk mengatur izin akses.
 
 **Review role permissions**
 
-1.  Select the **Roles** tab (top).
+1. Klik tab **Roles** di bagian atas.
 
-1.  Review the large number of built-in roles that are available.
+2. Tinjau daftar **role bawaan (built-in roles)** yang tersedia.
 
-1.  Double-click a role, and then select **Permissions** (top).
+3. Klik dua kali salah satu role, lalu pilih tab **Permissions**.
 
-1.  Continue drilling into the role until you can view the **Read, Write, and Delete** actions for that role.
+4. Jelajahi detail role hingga terlihat aksi **Read**, **Write**, dan **Delete**.
 
-1.  Return to the **Access Control (IAM)** blade.
+5. Kembali ke tab **Access Control (IAM)**.
 
 **Add a role assignment**
 
-1.  Create a user or select an existing user.
+1. Buat pengguna baru atau pilih pengguna yang sudah ada.
 
-1.  Select **Add role assignment** and select a role. For example, *owner*.
+2. Klik **Add role assignment**, lalu pilih role, misalnya *Owner*.
 
-1.  Select **Check access**.
+3. Gunakan fitur **Check access** untuk meninjau hak akses pengguna tersebut.
 
-1.  Review the user permissions.
-
-1.  Note that you can **Deny assignments**.
+4. Catat bahwa Anda juga dapat membuat **Deny assignment** jika dibutuhkan.

