@@ -1,14 +1,16 @@
 ---
-title: Online Hosted Instructions
+title: Lab Instruksi Azure Administrator
 permalink: index.html
 layout: home
 ---
 
-# Content Directory
+# Catatan Penting
 
-Required labs files can be [DOWNLOADED HERE](https://github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator/archive/master.zip)
+# Konten Folder
 
-## Labs
+File lab yang diperlukan dapat [Download Disini](https://github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator/archive/master.zip)
+
+## Panduan Lab
 
 {% assign labs = site.pages | where_exp:"page", "page.url contains '/Instructions/Labs'" %}
 | Module | Lab |
@@ -16,7 +18,7 @@ Required labs files can be [DOWNLOADED HERE](https://github.com/MicrosoftLearnin
 {% for activity in labs  %}| {{ activity.lab.module }} | [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) |
 {% endfor %}
 
-## Demonstrations
+## Demonstrasi
 
 {% assign demos = site.pages | where_exp:"page", "page.url contains '/Instructions/Demos'" %}
 | Module | Demonstration |
