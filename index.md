@@ -6,6 +6,7 @@ layout: home
 
 # Tentang Halaman ini
 Dokumentasi lab pada halaman ini merupakan versi yang telah disederhanakan dari Microsoft Official Course AZ-104: Microsoft Azure Administrator.
+---
 
 📝 Catatan Penting:
 
@@ -15,6 +16,7 @@ Beberapa langkah telah diringkas, diberi penjelasan tambahan, atau diadaptasi un
 
 Semua hak cipta asli tetap dimiliki oleh Microsoft.
 
+---
 🔗 Sumber Asli:
 AZ-104 Microsoft Learning GitHub Repository
 
