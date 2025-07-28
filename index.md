@@ -4,7 +4,7 @@ permalink: index.html
 layout: home
 ---
 
-# 📘 Dokumentasi Lab AZ-104 (Versi Sederhana)
+# 📘 Dokumentasi Lab AZ-Administrator
 
 Halaman ini berisi dokumentasi lab yang telah **disederhanakan** dan **diadaptasi** dari sumber resmi Microsoft untuk kursus **AZ-104: Microsoft Azure Administrator**.
 
@@ -31,6 +31,37 @@ Modifikasi ini dilakukan untuk:
 - Digunakan dalam workshop atau kelas pelatihan intensif
 - Menyesuaikan istilah dan instruksi agar lebih familiar
 
+
+---
+
+Terima kasih telah menggunakan materi ini! Semoga bermanfaat dalam proses belajarmu tentang Azure ☁️
+
+
+
+# Konten Folder
+
+File lab yang diperlukan dapat [Download Disini](https://github.com/zaxrmdn/Lazidn25/archive/refs/heads/file.zip)
+
+
+## Panduan Lab
+
+{% assign labs = site.pages | where_exp:"page", "page.url contains '/Instructions/Labs'" %}
+| Module | Lab |
+| --- | --- | 
+{% for activity in labs  %}| {{ activity.lab.module }} | [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) |
+{% endfor %}
+
+## Interaktif Lab (Non-Praktek)
+https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator
+
+## Demonstrasi
+
+{% assign demos = site.pages | where_exp:"page", "page.url contains '/Instructions/Demos'" %}
+| Module | Demonstration |
+| --- | --- | 
+{% for activity in demos  %}| {{ activity.demo.module }} | [{{ activity.demo.title }}]({{ site.github.url }}{{ activity.url }}) |
+{% endfor %}
+
 ---
 
 ## ⚠️ Hak Cipta
@@ -47,35 +78,6 @@ Jika kamu memiliki pertanyaan, saran, atau masukan terkait lab ini, silakan hubu
 **Zakaria Ramadan**  
 📧 [zakaria@idn.id](mailto:zakaria@idn.id)  
 🌐 [https://zakaria.web.id](https://zakaria.web.id)
-
----
-
-Terima kasih telah menggunakan materi ini! Semoga bermanfaat dalam proses belajarmu tentang Azure ☁️
-
-
-
-# Konten Folder
-
-File lab yang diperlukan dapat [Download Disini](https://github.com/zaxrmdn/Lazidn25/archive/refs/heads/file.zip)
-
-## Demonstrasi
-
-{% assign demos = site.pages | where_exp:"page", "page.url contains '/Instructions/Demos'" %}
-| Module | Demonstration |
-| --- | --- | 
-{% for activity in demos  %}| {{ activity.demo.module }} | [{{ activity.demo.title }}]({{ site.github.url }}{{ activity.url }}) |
-{% endfor %}
-
-## Panduan Lab
-
-{% assign labs = site.pages | where_exp:"page", "page.url contains '/Instructions/Labs'" %}
-| Module | Lab |
-| --- | --- | 
-{% for activity in labs  %}| {{ activity.lab.module }} | [{{ activity.lab.title }}{% if activity.lab.type %} - {{ activity.lab.type }}{% endif %}]({{ site.github.url }}{{ activity.url }}) |
-{% endfor %}
-
-## Interaktif Lab (Non-Praktek)
-https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator
 
 
 > 🛈 Catatan: Lab ini merupakan versi modifikasi dari materi resmi Microsoft AZ-104. Beberapa bagian telah disederhanakan dan disesuaikan untuk pembelajaran lokal.
