@@ -52,7 +52,7 @@ File lab yang diperlukan dapat [Download Disini](https://github.com/zaxrmdn/Lazi
 {% endfor %}
 
 ## Interaktif Lab (Non-Praktek)
-[github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator)
+[Interaktif Lab Guide](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator)
 
 ## Demonstrasi
 
