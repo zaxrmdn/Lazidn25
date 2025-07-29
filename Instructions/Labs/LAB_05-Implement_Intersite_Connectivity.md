@@ -1,295 +1,294 @@
 ---
 lab:
-    title: 'Lab 05: Implement Intersite Connectivity'
-    module: 'Administer Intersite Connectivity'
+  title: 'Lab 05: Implement Intersite Connectivity'
+  module: 'Administer Intersite Connectivity'
 ---
 
 # Lab 05 - Implement Intersite Connectivity
 
-## Lab introduction
+## Pendahuluan
 
-In this lab you explore communication between virtual networks. You implement virtual network peering and test connections. You will also create a custom route. 
+Dalam lab ini, Anda akan mengeksplorasi komunikasi antara Virtual Network di Azure. Anda akan mengimplementasikan Virtual Network Peering dan menguji koneksi antar Virtual Machine. Anda juga akan membuat custom route untuk mengontrol lalu lintas jaringan.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **East US**. 
+> ⚠️ Lab ini memerlukan Azure Subscription. Langkah-langkah menggunakan region **East US**, tetapi Anda dapat memilih region lain.
 
-## Estimated time: 50 minutes
-    
-## Lab scenario 
+---
 
-Your organization segments core IT apps and services (such as DNS and security services) from other parts of the business, including your manufacturing department. However, in some scenarios, apps and services in the core area need to communicate with apps and services in the manufacturing area. In this lab, you configure connectivity between the segmented areas. This is a common scenario for separating production from development or separating one subsidiary from another.  
+## Estimasi Waktu  
+🕒 Sekitar **50 menit**
 
-## Interactive lab simulations
+---
 
->**Note**: The lab simulations that were previously provided have been retired.
+## Skenario
 
-## Architecture diagram
+Organisasi Anda memisahkan layanan inti TI (seperti DNS dan security services) dari bagian bisnis lainnya seperti departemen manufaktur. Namun, beberapa aplikasi di kedua area tersebut perlu saling berkomunikasi. Lab ini mensimulasikan skenario umum seperti pemisahan produksi dan pengembangan atau antar anak perusahaan.
 
-![Lab 05 architecture diagram](../media/az104-lab05-architecture.png)
+---
 
-## Job skills
+## Diagram Arsitektur
 
-+ Task 1: Create a virtual machine in a virtual network.
-+ Task 2: Create a virtual machine in a different virtual network.
-+ Task 3: Use Network Watcher to test the connection between virtual machines. 
-+ Task 4: Configure virtual network peerings between different virtual networks.
-+ Task 5: Use Azure PowerShell to test the connection between virtual machines.
-+ Task 6: Create a custom route. 
+![Architecture Diagram](../media/az104-lab05-architecture.png)
 
-## Task 1:  Create a core services virtual machine and virtual network
+---
 
-In this task, you create a core services virtual network with a virtual machine. 
+## Keterampilan yang Dipelajari
 
-1. Sign in to the **Azure portal** - `https://portal.azure.com`.
+- Membuat Virtual Machine di Virtual Network
+- Membuat VM di Virtual Network lain
+- Menguji koneksi antar VM menggunakan Network Watcher
+- Mengonfigurasi Virtual Network Peering
+- Menggunakan Azure PowerShell untuk menguji koneksi
+- Membuat Custom Route dengan Route Table
 
-1. Search for and select `Virtual Machines`.
+---
 
-1. From the virtual machines page, select **Create** then select **Azure Virtual Machine**.
+## Task 1 - Membuat CoreServices VM dan Virtual Network
 
-1. On the Basics tab, use the following information to complete the form, and then select **Next: Disks >**. For any setting not specified, leave the default value.
- 
-    | Setting | Value | 
-    | --- | --- |
-    | Subscription |  *your subscription* |
-    | Resource group |  `az104-rg5` (If necessary, **Create new**. )
-    | Virtual machine name |    `CoreServicesVM` |
-    | Region | **(US) East US** |
-    | Availability options | No infrastructure redundancy required |
-    | Security type | **Standard** |
-    | Image | **Windows Server 2019 Datacenter: x64 Gen2** (notice your other choices) |
-    | Size | **Standard_DS2_v3** |
-    | Username | `localadmin` | 
-    | Password | **Provide a complex password** |
-    | Public inbound ports | **None** |
+### Langkah-langkah:
 
-    ![Screenshot of Basic virtual machine creation page. ](../media/az104-lab05-createcorevm.png)
-   
-1. On the **Disks** tab take the defaults and then select **Next: Networking >**.
+1. Masuk ke **Azure Portal**: [https://portal.azure.com](https://portal.azure.com)
+2. Cari dan pilih **Virtual Machines**
+3. Klik **Create > Azure Virtual Machine**
+4. Pada tab **Basics**, isi formulir sebagai berikut:
 
-1. On the **Networking** tab, for Virtual network, select **Create new**.
+   | Setting | Value |
+   |--------|-------|
+   | Subscription | *your subscription* |
+   | Resource Group | `az104-rg5` |
+   | Virtual machine name | `CoreServicesVM` |
+   | Region | East US |
+   | Availability options | No infrastructure redundancy required |
+   | Security type | Standard |
+   | Image | Windows Server 2019 Datacenter: x64 Gen2 |
+   | Size | Standard_DS2_v3 |
+   | Username | `localadmin` |
+   | Password | *password kompleks* |
+   | Public inbound ports | None |
 
-1. Use the following information to configure the virtual network, and then select **OK**. If necessary, remove or replace the existing information.
+5. Klik **Next: Disks >**, biarkan default
+6. Klik **Next: Networking >**
+7. Klik **Create new** untuk Virtual Network dan isi:
 
-    | Setting | Value | 
-    | --- | --- |
-    | Name | `CoreServicesVnet` (Create new) |
-    | Address range | `10.0.0.0/16`  |
-    | Subnet Name | `Core` | 
-    | Subnet address range | `10.0.0.0/24` |
+   | Setting | Value |
+   |--------|-------|
+   | Name | `CoreServicesVnet` |
+   | Address range | `10.0.0.0/16` |
+   | Subnet name | `Core` |
+   | Subnet address range | `10.0.0.0/24` |
 
-1. Select the **Monitoring** tab. For Boot Diagnostics, select **Disable**.
+8. Klik **Next: Monitoring >** dan nonaktifkan **Boot diagnostics**
+9. Klik **Review + Create > Create**
 
-1. Select **Review + Create**, and then select **Create**.
+---
 
-1. You do not need to wait for the resources to be created. Continue on to the next task.
+## Task 2 - Membuat Manufacturing VM di Virtual Network Berbeda
 
-    >**Note:** Did you notice in this task you created the virtual network as you created the virtual machine? You could also create the virtual network infrastructure then add the virtual machines. 
+1. Kembali ke **Virtual Machines** dan klik **Create > Azure Virtual Machine**
+2. Isi tab **Basics**:
 
-## Task 2: Create a virtual machine in a different virtual network
+   | Setting | Value |
+   |--------|-------|
+   | Subscription | *your subscription* |
+   | Resource Group | `az104-rg5` |
+   | Virtual machine name | `ManufacturingVM` |
+   | Region | East US |
+   | Availability options | No infrastructure redundancy required |
+   | Security type | Standard |
+   | Image | Windows Server 2019 Datacenter: x64 Gen2 |
+   | Size | Standard_DS2_v3 |
+   | Username | `localadmin` |
+   | Password | *password kompleks* |
+   | Public inbound ports | None |
 
-In this task, you create a manufacturing services virtual network with a virtual machine. 
+3. Klik **Next: Disks >**, biarkan default
+4. Klik **Next: Networking >**, lalu pilih **Create new** Virtual Network:
 
-1. From the Azure portal, search for and navigate to **Virtual Machines**.
+   | Setting | Value |
+   |--------|-------|
+   | Name | `ManufacturingVnet` |
+   | Address range | `172.16.0.0/16` |
+   | Subnet name | `Manufacturing` |
+   | Subnet address range | `172.16.0.0/24` |
 
-1. From the virtual machines page, select **Create** then select **Azure Virtual Machine**.
+5. Nonaktifkan **Boot diagnostics**
+6. Klik **Review + Create > Create**
 
-1. On the Basics tab, use the following information to complete the form, and then select **Next: Disks >**. For any setting not specified, leave the default value.
- 
-    | Setting | Value | 
-    | --- | --- |
-    | Subscription |  *your subscription* |
-    | Resource group |  `az104-rg5` |
-    | Virtual machine name |    `ManufacturingVM` |
-    | Region | **(US) East US** |
-    | Security type | **Standard** |
-    | Availability options | No infrastructure redundancy required |
-    | Image | **Windows Server 2019 Datacenter: x64 Gen2** |
-    | Size | **Standard_DS2_v3** | 
-    | Username | `localadmin` | 
-    | Password | **Provide a complex password** |
-    | Public inbound ports | **None** |
+---
 
-1. On the **Disks** tab take the defaults and then select **Next: Networking >**.
+## Task 3 - Menguji Koneksi dengan Network Watcher
 
-1. On the Networking tab, for Virtual network, select **Create new**.
+> 🧪 Pastikan kedua VM telah berjalan (*Running*)
 
-1. Use the following information to configure the virtual network, and then select **OK**.  If necessary, remove or replace the existing address range.
+1. Di Azure Portal, cari dan buka **Network Watcher**
+2. Pilih **Connection troubleshoot**
+3. Isi sebagai berikut:
 
-    | Setting | Value | 
-    | --- | --- |
-    | Name | `ManufacturingVnet` |
-    | Address range | `172.16.0.0/16`  |
-    | Subnet Name | `Manufacturing` |
-    | Subnet address range | `172.16.0.0/24` |
+   | Field | Value |
+   |-------|-------|
+   | Source type | Virtual machine |
+   | Virtual machine | `CoreServicesVM` |
+   | Destination type | Virtual machine |
+   | Virtual machine | `ManufacturingVM` |
+   | Preferred IP Version | Both |
+   | Protocol | TCP |
+   | Destination port | 3389 |
 
-1. Select the **Monitoring** tab. For Boot Diagnostics, select **Disable**.
+4. Klik **Run diagnostic tests**
 
-1. Select **Review + Create**, and then select **Create**.
+> 💡 Koneksi akan gagal karena belum ada peering antar Virtual Network.
 
-## Task 3: Use Network Watcher to test the connection between virtual machines 
+---
 
+## Task 4 - Konfigurasi Virtual Network Peering
 
-In this task, you verify that resources in peered virtual networks can communicate with each other. Network Watcher will be used to test the connection. Before continuing, ensure both virtual machines have been deployed and are running. 
+### Peering dari CoreServicesVnet ke ManufacturingVnet
 
-1. From the Azure portal, search for and select `Network Watcher`.
+1. Buka **CoreServicesVnet** > **Peerings** > **+ Add**
+2. Konfigurasi:
 
-1. From Network Watcher, in the Network diagnostic tools menu, select **Connection troubleshoot**.
+   - Peering link name: `CoreServicesVnet-to-ManufacturingVnet`
+   - Remote virtual network: `ManufacturingVnet`
+   - Aktifkan akses dua arah dan forwarded traffic
 
-1. Use the following information to complete the fields on the **Connection troubleshoot** page.
+### Peering dari ManufacturingVnet ke CoreServicesVnet
 
-    | Field | Value | 
-    | --- | --- |
-    | Source type           | **Virtual machine**   |
-    | Virtual machine       | **CoreServicesVM**    | 
-    | Destination type      | **Virtual machine**   |
-    | Virtual machine       | **ManufacturingVM**   | 
-    | Preferred IP Version  | **Both**              | 
-    | Protocol              | **TCP**               |
-    | Destination port      | `3389`                |  
-    | Source port           | *Blank*         |
-    | Diagnostic tests      | *Defaults*      |
+3. Ulangi langkah yang sama untuk `ManufacturingVnet-to-CoreServicesVnet`
 
-    ![Azure Portal showing Connection Troubleshoot settings.](../media/az104-lab05-connection-troubleshoot.png)
+4. Pastikan **Peering status** pada keduanya menjadi **Connected**
 
-1. Select **Run diagnostic tests**.
+---
 
-    >**Note**: It may take a couple of minutes for the results to be returned. The screen selections will be greyed out while the results are being collected. Notice the **Connectivity test** shows **UnReachable**. This makes sense because the virtual machines are in different virtual networks. 
+## Task 5 - Menguji Koneksi Menggunakan PowerShell
 
- 
-## Task 4: Configure virtual network peerings between virtual networks
+### Cari Alamat IP Privat CoreServicesVM
 
-In this task, you create a virtual network peering to enable communications between resources in the virtual networks. 
+1. Buka **CoreServicesVM** > tab **Networking**
+2. Catat **Private IP address**
 
-1. In the Azure portal, select the `CoreServicesVnet` virtual network.
+### Jalankan Test dari ManufacturingVM
 
-1. In CoreServicesVnet, under **Settings**, select **Peerings**.
+1. Buka **ManufacturingVM**
+2. Masuk ke **Run command** > **RunPowerShellScript**
+3. Jalankan perintah berikut:
 
-1. On CoreServicesVnet, under Peerings, select **+ Add**. If not specified, take the default. 
+```powershell
+Test-NetConnection <PRIVATE-IP-CORESERVICESVM> -Port 3389
 
-    | **Parameter**                                    | **Value**                             |
-    | --------------------------------------------- | ------------------------------------- |                                
-    | Peering link name                             | `CoreServicesVnet-to-ManufacturingVnet` |
-    | Virtual network    | **ManufacturingVM-net (az104-rg5)**  |
-    | Allow ManufacturingVnet to access CoreServicesVnet  | selected (default) |
-    | Allow ManufacturingVnet to receive forwarded traffic from CoreServicesVnet | selected  |
-    | Peering link name                             | `ManufacturingVnet-to-CoreServicesVnet` |
-    | Allow CoreServicesVnet to access the peered virtual network            | selected (default) |
-    | Allow CoreServicesVnet to receive forwarded traffic from the peered virtual network | selected |
+### Hasil Uji Koneksi
 
-4. Click **Add**.
+Tes koneksi seharusnya berhasil karena **Virtual Network Peering** telah dikonfigurasi.
 
-5. In CoreServicesVnet, under Peerings, verify that the **CoreServicesVnet-to-ManufacturingVnet** peering is listed. Refresh the page to ensure the **Peering status** is **Connected**.
+> 🖥️ Nama komputer dan alamat IP remote Anda mungkin berbeda dengan gambar berikut.
 
-6. Switch to the **ManufacturingVnet** and verify the **ManufacturingVnet-to-CoreServicesVnet** peering is listed. Ensure the **Peering status** is **Connected**. You may need to **Refresh** the page. 
+![Test-NetConnection success](../media/az104-lab05-success.png)
 
-## Task 5: Use Azure PowerShell to test the connection between virtual machines
+---
 
-In this task, you retest the connection between the virtual machines in different virtual networks. 
 
-### Verify the private IP address of the CoreServicesVM
+## Task 6 - Membuat Custom Route
 
-1. From the Azure portal, search for and select the `CoreServicesVM` virtual machine.
+Dalam task ini, Anda akan mengontrol lalu lintas jaringan antara subnet `perimeter` dan subnet internal `Core`. Sebuah **Network Virtual Appliance (NVA)** akan dipasang di subnet inti, dan semua trafik dari perimeter akan diarahkan ke sana.
 
-1. On the **Overview** blade, in the **Networking** section, record the **Private IP address** of the machine. You need this information to test the connection.
-   
-### Test the connection to the CoreServicesVM from the **ManufacturingVM**.
+### Langkah-langkah:
 
->**Did you know?** There are many ways to check connections. In this task, you use **Run command**. You could also continue to use Network Watcher. Or you could use a [Remote Desktop Connection](https://learn.microsoft.com/azure/virtual-machines/windows/connect-rdp#connect-to-the-virtual-machine) to the access the virtual machine. Once connected, use **test-connection**. As you have time, give RDP a try. 
+#### 1. Tambahkan Subnet `perimeter` ke Virtual Network
 
-1. Switch to the `ManufacturingVM` virtual machine.
+1. Cari dan pilih **CoreServicesVnet** di Azure portal  
+2. Buka menu **Subnets**, lalu klik **+ Subnet**
+3. Isi konfigurasi berikut, lalu klik **Add**
 
-1. In the **Operations** blade, select the **Run command** blade.
+   | Setting | Value |
+   |--------|-------|
+   | Name | `perimeter` |
+   | Address range | `10.0.1.0/24` |
 
-1. Select **RunPowerShellScript** and run the **Test-NetConnection** command. Be sure to use the private IP address of the **CoreServicesVM**.
+---
 
-    ```Powershell
-    Test-NetConnection <CoreServicesVM private IP address> -port 3389
-    ```
-1. It may take a couple of minutes for the script to time out. The top of the page shows an informational message *Script execution in progress.*
+#### 2. Buat Route Table
 
-   
-1. The test connection should succeed because peering has been configured. Your computer name and remote address in this graphic may be different. 
-   
-   ![PowerShell window with Test-NetConnection succeeded.](../media/az104-lab05-success.png)
+1. Di Azure portal, cari dan pilih **Route tables**
+2. Klik **+ Create**
+3. Isi formulir berikut:
 
-## Task 6: Create a custom route 
+   | Setting | Value |
+   |--------|-------|
+   | Subscription | *your subscription* |
+   | Resource group | `az104-rg5` |
+   | Region | East US |
+   | Name | `rt-CoreServices` |
+   | Propagate gateway routes | No |
 
-In this task, you want to control network traffic between the perimeter subnet and the internal core services subnet. A virtual network appliance will be installed in the core services subnet and all traffic should be routed there. 
+4. Klik **Review + Create** > **Create**
 
-1. Search for select the `CoreServicesVnet`.
+---
 
-1. Select **Subnets** and then **+ Subnet**. Be sure to select **Add** to save your changes. 
+#### 3. Tambahkan Route Baru
 
-    | Setting | Value | 
-    | --- | --- |
-    | Name | `perimeter` |
-    | Starting address | `10.0.1.0/24`  |
+1. Setelah deployment selesai, buka **Route tables**, lalu pilih **rt-CoreServices** (klik nama, bukan checkbox)
+2. Di bagian **Settings**, buka **Routes** > klik **+ Add**
+3. Masukkan konfigurasi berikut:
 
-   
-1. In the Azure portal, search for and select `Route tables`, select **+ Create**.
+   | Setting | Value |
+   |--------|-------|
+   | Route name | `PerimetertoCore` |
+   | Destination type | IP Addresses |
+   | Destination IP addresses | `10.0.0.0/16` |
+   | Next hop type | Virtual appliance |
+   | Next hop address | `10.0.1.7` |
 
-1. Enter the following details, select **Review + Create**, and then select **Create**. 
+4. Klik **Add**
 
-    | Setting | Value | 
-    | --- | --- |
-    | Subscription | your subscription |
-    | Resource group | `az104-rg5`  |
-    | Region | **East US** |
-    | Name | `rt-CoreServices` |
-    | Propagate gateway routes | **No** |
+---
 
-1. After the route table deploys, Search for and select the **Route Tables**.
-   
-1. Select the resource (not the checkbox) **rt-CoreServices**
+#### 4. Asosiasikan Route Table ke Subnet
 
-1. Expand **Settings** then select **Routes** and then **Add**. Create a route from a future Network Virtual Appliance (NVA) to the CoreServices virtual network. 
+1. Di halaman **rt-CoreServices**, buka tab **Subnets** > klik **+ Associate**
+2. Isi sebagai berikut:
 
-    | Setting | Value | 
-    | --- | --- |
-    | Route name | `PerimetertoCore` |
-    | Destination type | **IP Addresses** |
-    | Destination IP addresses | `10.0.0.0/16` (core services virtual network) |
-    | Next hop type | **Virtual appliance** (notice your other choices) |
-    | Next hop address | `10.0.1.7` (future NVA) |
+   | Setting | Value |
+   |--------|-------|
+   | Virtual network | `CoreServicesVnet` |
+   | Subnet | `Core` |
 
-1. Select **+ Add**. The last thing to do is associate the route with the subnet.
+> 📌 Anda telah membuat **User Defined Route (UDR)** untuk mengarahkan trafik dari subnet perimeter ke appliance jaringan virtual di subnet inti.
 
-1. Select **Subnets** and then **+ Associate**. Complete the configuration.
+---
 
-    | Setting | Value | 
-    | --- | --- |
-    | Virtual network | **CoreServicesVnet** |
-    | Subnet | **Core** |    
+## Pembersihan Sumber Daya
 
->**Note**: You have created a user defined route to direct traffic from the DMZ to the new NVA.  
+Jika Anda menggunakan **subscription pribadi**, pastikan untuk menghapus resource setelah selesai agar biaya tidak terus berjalan.
 
-## Cleanup your resources
+### Menghapus dari Portal
 
-If you are working with **your own subscription** take a minute to delete the lab resources. This will ensure resources are freed up and cost is minimized. The easiest way to delete the lab resources is to delete the lab resource group. 
+- Buka **Resource Group** `az104-rg5`
+- Klik **Delete resource group**
+- Masukkan nama resource group untuk konfirmasi, lalu klik **Delete**
 
-+ In the Azure portal, select the resource group, select **Delete the resource group**, **Enter resource group name**, and then click **Delete**.
-+ Using Azure PowerShell, `Remove-AzResourceGroup -Name resourceGroupName`.
-+ Using the CLI, `az group delete --name resourceGroupName`.
+### Menghapus via PowerShell
+
+```powershell
+Remove-AzResourceGroup -Name az104-rg5
 
 ## Extend your learning with Copilot
-Copilot can assist you in learning how to use the Azure scripting tools. Copilot can also assist in areas not covered in the lab or where you need more information. Open an Edge browser and choose Copilot (top right) or navigate to *copilot.microsoft.com*. Take a few minutes to try these prompts.
 
-+ How can I use Azure PowerShell or Azure CLI commands to add a virtual network peering between vnet1 and vnet2?
-+ Create a table highlighting various Azure and 3rd party monitoring tools supported on Azure. Highlight when to use each tool. 
-+ When would I create a custom network route in Azure?
+Copilot dapat membantu Anda mempelajari cara menggunakan alat skrip Azure. Copilot juga dapat membantu pada area yang tidak dibahas di lab atau jika Anda memerlukan informasi tambahan. Buka browser Edge dan pilih Copilot (pojok kanan atas) atau buka *copilot.microsoft.com*. Luangkan waktu beberapa menit untuk mencoba prompt berikut:
+
++ Bagaimana cara menggunakan perintah Azure PowerShell atau Azure CLI untuk menambahkan peering jaringan virtual antara vnet1 dan vnet2?
++ Buat tabel yang menyoroti berbagai alat pemantauan Azure dan pihak ketiga yang didukung di Azure. Sorot kapan harus menggunakan masing-masing alat tersebut.
++ Kapan saya harus membuat rute jaringan kustom di Azure?
 
 ## Learn more with self-paced training
 
-+ [Distribute your services across Azure virtual networks and integrate them by using virtual network peering](https://learn.microsoft.com/en-us/training/modules/integrate-vnets-with-vnet-peering/). Use virtual network peering to enable communication across virtual networks in a way that's secure and minimally complex.
-+ [Manage and control traffic flow in your Azure deployment with routes](https://learn.microsoft.com/training/modules/control-network-traffic-flow-with-routes/). Learn how to control Azure virtual network traffic by implementing custom routes.
-
++ [Distribute your services across Azure virtual networks and integrate them by using virtual network peering](https://learn.microsoft.com/en-us/training/modules/integrate-vnets-with-vnet-peering/). Gunakan peering jaringan virtual untuk memungkinkan komunikasi antar jaringan virtual dengan cara yang aman dan sederhana.
++ [Manage and control traffic flow in your Azure deployment with routes](https://learn.microsoft.com/training/modules/control-network-traffic-flow-with-routes/). Pelajari cara mengontrol lalu lintas jaringan virtual Azure dengan menerapkan rute kustom.
 
 ## Key takeaways
 
-Congratulations on completing the lab. Here are the main takeaways for this lab. 
+Selamat telah menyelesaikan lab. Berikut adalah hal-hal penting yang dapat dipelajari dari lab ini:
 
-+ By default, resources in different virtual networks cannot communicate.
-+ Virtual network peering enables you to seamlessly connect two or more virtual networks in Azure.
-+ Peered virtual networks appear as one for connectivity purposes.
-+ The traffic between virtual machines in peered virtual networks uses the Microsoft backbone infrastructure.
-+ System defined routes are automatically created for each subnet in a virtual network. User-defined routes override or add to the default system routes. 
-+ Azure Network Watcher provides a suite of tools to monitor, diagnose, and view metrics and logs for Azure IaaS resources.
++ Secara default, sumber daya di jaringan virtual yang berbeda tidak dapat berkomunikasi.
++ Peering jaringan virtual memungkinkan Anda menghubungkan dua atau lebih jaringan virtual di Azure secara mulus.
++ Jaringan virtual yang telah di-peer dianggap satu jaringan untuk keperluan konektivitas.
++ Lalu lintas antara mesin virtual di jaringan virtual yang di-peer menggunakan infrastruktur backbone Microsoft.
++ Rute sistem ditentukan secara otomatis untuk setiap subnet dalam jaringan virtual. Rute yang ditentukan pengguna menggantikan atau menambah rute sistem default.
++ Azure Network Watcher menyediakan serangkaian alat untuk memantau, mendiagnosis, dan melihat metrik serta log untuk sumber daya IaaS Azure.
