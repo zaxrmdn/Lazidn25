@@ -10,7 +10,7 @@ lab:
 
 Dalam lab ini, Anda akan mengeksplorasi komunikasi antara Virtual Network di Azure. Anda akan mengimplementasikan Virtual Network Peering dan menguji koneksi antar Virtual Machine. Anda juga akan membuat custom route untuk mengontrol lalu lintas jaringan.
 
-> ⚠️ Lab ini memerlukan Azure Subscription. Langkah-langkah menggunakan region **East US**, tetapi Anda dapat memilih region lain.
+> ⚠️ Lab ini memerlukan Azure Subscription. Langkah-langkah menggunakan region **Indonesia Central**, tetapi Anda dapat memilih region lain.
 
 ---
 
@@ -54,13 +54,13 @@ Organisasi Anda memisahkan layanan inti TI (seperti DNS dan security services) d
    | Setting | Value |
    |--------|-------|
    | Subscription | *your subscription* |
-   | Resource Group | `az104-rg5` |
+   | Resource Group | `rg5-p1` |
    | Virtual machine name | `CoreServicesVM` |
-   | Region | East US |
+   | Region | Indonesia Central |
    | Availability options | No infrastructure redundancy required |
    | Security type | Standard |
-   | Image | Windows Server 2019 Datacenter: x64 Gen2 |
-   | Size | Standard_DS2_v3 |
+   | Image | Ubuntu Server 24.04LTS: x64 Gen2 |
+   | Size | Standard_b1s |
    | Username | `localadmin` |
    | Password | *password kompleks* |
    | Public inbound ports | None |
@@ -89,13 +89,13 @@ Organisasi Anda memisahkan layanan inti TI (seperti DNS dan security services) d
    | Setting | Value |
    |--------|-------|
    | Subscription | *your subscription* |
-   | Resource Group | `az104-rg5` |
+   | Resource Group | `rg5-p1` |
    | Virtual machine name | `ManufacturingVM` |
-   | Region | East US |
+   | Region | Indonesia Central |
    | Availability options | No infrastructure redundancy required |
    | Security type | Standard |
-   | Image | Windows Server 2019 Datacenter: x64 Gen2 |
-   | Size | Standard_DS2_v3 |
+   | Image | Ubuntu Server 24.04LTS: x64 Gen2 |
+   | Size | Standard_b1s |
    | Username | `localadmin` |
    | Password | *password kompleks* |
    | Public inbound ports | None |
@@ -213,8 +213,8 @@ Dalam task ini, Anda akan mengontrol lalu lintas jaringan antara subnet `perimet
    | Setting | Value |
    |--------|-------|
    | Subscription | *your subscription* |
-   | Resource group | `az104-rg5` |
-   | Region | East US |
+   | Resource group | `rg5-p1` |
+   | Region | Indonesia Central |
    | Name | `rt-CoreServices` |
    | Propagate gateway routes | No |
 
@@ -260,14 +260,14 @@ Jika Anda menggunakan **subscription pribadi**, pastikan untuk menghapus resourc
 
 ### Menghapus dari Portal
 
-- Buka **Resource Group** `az104-rg5`
+- Buka **Resource Group** `rg5-p1`
 - Klik **Delete resource group**
 - Masukkan nama resource group untuk konfirmasi, lalu klik **Delete**
 
 ### Menghapus via PowerShell
 
 ```powershell
-Remove-AzResourceGroup -Name az104-rg5
+Remove-AzResourceGroup -Name rg5-p1
 
 ## Extend your learning with Copilot
 
