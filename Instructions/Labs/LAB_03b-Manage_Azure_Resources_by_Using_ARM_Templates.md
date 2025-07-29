@@ -10,7 +10,7 @@ lab:
 
 Dalam lab ini, kamu akan mempelajari cara mengotomatisasi deployment resource. Kamu akan belajar tentang Azure Resource Manager templates dan Bicep templates. Kamu juga akan mempelajari berbagai cara untuk melakukan deployment template.
 
-Lab ini membutuhkan langganan Azure. Jenis langgananmu dapat memengaruhi fitur yang tersedia di lab ini. Kamu bisa mengubah region, namun langkah-langkah ditulis menggunakan **East US**.
+Lab ini membutuhkan langganan Azure. Jenis langgananmu dapat memengaruhi fitur yang tersedia di lab ini. Kamu bisa mengubah region, namun langkah-langkah ditulis menggunakan **Indonesia Central**.
 
 ## Estimated timing: 50 minutes
 
@@ -51,7 +51,7 @@ Tim kamu ingin mengeksplorasi cara untuk mengotomatisasi dan menyederhanakan dep
     | Subscription | *your subscription* | 
     | Resource Group | `rg3-p1` |
     | Disk name | `p1-disk1` | 
-    | Region | **East US** |
+    | Region | **Indonesia Central** |
     | Availability zone | **No infrastructure redundancy required** | 
     | Source type | **None** |
     | Performance | **Standard HDD** |
@@ -81,14 +81,14 @@ Tim kamu ingin mengeksplorasi cara untuk mengotomatisasi dan menyederhanakan dep
 
 4. Lakukan perubahan berikut:
 
-    + Ganti `disks_az104_disk1_name` menjadi `disk_name` (dua tempat).
+    + Ganti `disks_disk1_name` menjadi `disk_name` (dua tempat).
     + Ganti `p1-disk1` menjadi `p1-disk2`.
 
 5. Simpan perubahan (klik **Save**).
 
 6. Edit parameter dengan klik **Edit parameters** → **Load file** → upload `parameters.json`.
 
-7. Ganti `disks_az104_disk1_name` menjadi `disk_name`.
+7. Ganti `disks_disk1_name` menjadi `disk_name`.
 
 8. Simpan perubahan dan lanjutkan deployment:
 
@@ -96,7 +96,7 @@ Tim kamu ingin mengeksplorasi cara untuk mengotomatisasi dan menyederhanakan dep
     | --- |--- |
     | Subscription | *your subscription* |
     | Resource Group | `rg3-p1` |
-    | Region | **East US** |
+    | Region | **Indonesia Central** |
     | Disk_name | `p1-disk2` |
 
 9. Klik **Review + Create** lalu **Create**.
