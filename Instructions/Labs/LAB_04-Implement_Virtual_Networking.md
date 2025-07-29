@@ -267,3 +267,43 @@ Jika Anda menggunakan **langganan sendiri**, hapus resource group untuk menghind
 - PowerShell:  
   ```powershell
   Remove-AzResourceGroup -Name rg4-p1
+
+## Perluas pembelajaran Anda dengan Copilot
+
+Copilot dapat membantu Anda mempelajari cara menggunakan alat scripting Azure. Copilot juga dapat membantu pada area yang tidak tercakup dalam lab ini atau jika Anda membutuhkan informasi tambahan. Buka browser Microsoft Edge dan pilih **Copilot** (pojok kanan atas), atau navigasikan ke [copilot.microsoft.com](https://copilot.microsoft.com). Luangkan beberapa menit untuk mencoba prompt berikut:
+
++ Bagikan 10 praktik terbaik dalam melakukan deployment dan konfigurasi virtual network di Azure.
++ Bagaimana cara menggunakan perintah Azure PowerShell dan Azure CLI untuk membuat virtual network dengan public IP address dan satu subnet.
++ Jelaskan aturan **inbound** dan **outbound** pada Azure Network Security Group serta bagaimana penggunaannya.
++ Apa perbedaan antara **Azure Network Security Groups** dan **Azure Application Security Groups**? Berikan contoh kapan masing-masing grup ini digunakan.
++ Berikan panduan langkah demi langkah tentang cara melakukan troubleshooting masalah jaringan saat melakukan deployment jaringan di Azure. Jelaskan juga alur pemikiran untuk setiap langkah troubleshooting.
+
+---
+
+## Pelajari lebih lanjut dengan pelatihan mandiri
+
++ [Pengenalan ke Azure Virtual Networks](https://learn.microsoft.com/training/modules/introduction-to-azure-virtual-networks/)  
+  Pelajari cara merancang dan mengimplementasikan infrastruktur inti jaringan Azure seperti virtual network, IP publik dan privat, DNS, virtual network peering, routing, dan Azure Virtual NAT.
+
++ [Merancang skema pengalamatan IP](https://learn.microsoft.com/training/modules/design-ip-addressing-for-azure/)  
+  Identifikasi kemampuan pengalamatan IP privat dan publik di Azure dan jaringan virtual lokal (on-premises).
+
++ [Amankan dan isolasi akses ke sumber daya Azure menggunakan network security groups dan service endpoints](https://learn.microsoft.com/training/modules/secure-and-isolate-with-nsg-and-service-endpoints/)  
+  Network security groups dan service endpoints membantu Anda mengamankan virtual machine dan layanan Azure dari akses jaringan yang tidak sah.
+
++ [Hosting domain Anda di Azure DNS](https://learn.microsoft.com/training/modules/host-domain-azure-dns/)  
+  Buat zona DNS untuk nama domain Anda. Buat DNS records untuk memetakan domain ke alamat IP. Uji apakah nama domain mengarah ke web server Anda.
+
+---
+
+## Ringkasan Utama (Key Takeaways)
+
+Selamat! Anda telah menyelesaikan lab ini. Berikut adalah poin-poin penting yang perlu diingat:
+
++ Virtual network adalah representasi jaringan Anda sendiri di cloud.
++ Saat merancang virtual network, sebaiknya hindari penggunaan rentang IP address yang saling tumpang tindih. Ini akan mengurangi potensi masalah dan mempermudah troubleshooting.
++ Subnet adalah bagian dari rentang IP address dalam virtual network. Anda dapat membagi virtual network menjadi beberapa subnet untuk tujuan organisasi dan keamanan.
++ Network security group (NSG) berisi aturan keamanan yang memperbolehkan atau menolak lalu lintas jaringan. Terdapat aturan default untuk incoming dan outgoing traffic yang dapat dikustomisasi sesuai kebutuhan Anda.
++ Application security group (ASG) digunakan untuk mengelompokkan server berdasarkan fungsi umum, seperti web server atau database server.
++ Azure DNS adalah layanan hosting untuk domain DNS yang menyediakan resolusi nama. Anda dapat mengonfigurasi Azure DNS untuk menerjemahkan nama host domain publik Anda. Anda juga dapat menggunakan private DNS zones untuk menetapkan nama DNS pada virtual machine (VM) di virtual network Azure Anda.
+
