@@ -4,7 +4,7 @@ permalink: index.html
 layout: home
 ---
 
-# 📘 Dokumentasi Lab AZ-Administrator
+# 📘 Dokumentasi Lab Azure Administrator
 
 Halaman ini berisi dokumentasi lab yang telah **disederhanakan** dan **diadaptasi** dari sumber resmi Microsoft untuk kursus **AZ-104: Microsoft Azure Administrator**.
 
@@ -52,7 +52,7 @@ File lab yang diperlukan dapat [Download Disini](https://github.com/zaxrmdn/Lazi
 {% endfor %}
 
 ## Interaktif Lab (Non-Praktek)
-[Interaktif Lab Guide](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator)
+[⌛⌛ Interaktif Lab Guide](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator)
 
 ## Demonstrasi
 
