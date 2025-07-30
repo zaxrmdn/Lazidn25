@@ -10,7 +10,7 @@ lab:
 
 In this lab, you create and compare virtual machines to virtual machine scale sets. You learn how to create, configure and resize a single virtual machine. You learn how to create a virtual machine scale set and configure autoscaling.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **East US**.
+This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **Indonesia Central**.
 
 ## Estimated timing: 50 minutes
 
@@ -52,9 +52,9 @@ In this task, you will deploy two Azure virtual machines into different availabi
     | Setting | Value |
     | --- | --- |
     | Subscription | the name of your Azure subscription |
-    | Resource group |  **az104-rg8** (If necessary, click **Create new**) |
-    | Virtual machine names | `az104-vm1` and `az104-vm2` (After selecting both availability zones, select **Edit names** under the VM name field.) |
-    | Region | **East US** |
+    | Resource group |  **rg8-p1** (If necessary, click **Create new**) |
+    | Virtual machine names | `vm1` and `vm2` (After selecting both availability zones, select **Edit names** under the VM name field.) |
+    | Region | **Indonesia Central** |
     | Availability options | **Availability zone** |
     | Availability zone | **Zone 1, 2** (read the note about using virtual machine scale sets) |
     | Security type | **Standard** |
@@ -110,7 +110,7 @@ In this task, you will deploy two Azure virtual machines into different availabi
 
 In this task, you will scale a virtual machine by adjusting its size to a different SKU. Azure provides flexibility in VM size selection so that you can adjust a VM for periods of time if it needs more (or less) compute and memory allocated. This concept is extended to disks, where you can modify the performance of the disk, or increase the allocated capacity.
 
-1. On the **az104-vm1** virtual machine, in the **Availability + scale** blade, select **Size**.
+1. On the **vm1** virtual machine, in the **Availability + scale** blade, select **Size**.
 
 1. Set the virtual machine size to **D2ds_v4** and click **Resize**. When prompted, confirm the change.
 
@@ -142,7 +142,7 @@ In this task, you will scale a virtual machine by adjusting its size to a differ
 
 1. Set the storage type to **Standard SSD**, and then click **Save**.
 
-1. Navigate back to the **az104-vm1** virtual machine and select **Disks**.
+1. Navigate back to the **vm1** virtual machine and select **Disks**.
 
 1. In the **Data disk** section, select **Attach existing disks**.
 
@@ -169,9 +169,9 @@ In this task, you will deploy an Azure virtual machine scale set across availabi
     | Setting | Value |
     | --- | --- |
     | Subscription | the name of your Azure subscription  |
-    | Resource group | **az104-rg8**  |
+    | Resource group | **rg8-p1**  |
     | Virtual machine scale set name | `vmss1` |
-    | Region | **(US)East US** |
+    | Region | **(US)Indonesia Central** |
     | Availability zone | **Zones 1, 2, 3** |
     | Orchestration mode | **Uniform** |
     | Security type | **Standard** |
@@ -335,9 +335,9 @@ In this task, you scale the virtual machine scale set using a custom scale rule.
 
     ```powershell
     New-AzVm `
-    -ResourceGroupName 'az104-rg8' `
+    -ResourceGroupName 'rg8-p1' `
     -Name 'myPSVM' `
-    -Location 'East US' `
+    -Location 'Indonesia Central' `
     -Image 'Win2019Datacenter' `
     -Zone '1' `
     -Size 'Standard_D2s_v3' `
@@ -348,7 +348,7 @@ In this task, you scale the virtual machine scale set using a custom scale rule.
 
     ```powershell
     Get-AzVM `
-    -ResourceGroupName 'az104-rg8' `
+    -ResourceGroupName 'rg8-p1' `
     -Status
     ```
 
@@ -358,7 +358,7 @@ In this task, you scale the virtual machine scale set using a custom scale rule.
 
     ```powershell
     Stop-AzVM `
-    -ResourceGroupName 'az104-rg8' `
+    -ResourceGroupName 'rg8-p1' `
     -Name 'myPSVM' 
     ```
 
@@ -375,13 +375,13 @@ In this task, you scale the virtual machine scale set using a custom scale rule.
 1. Run the following command to create a virtual machine. When prompted, provide a username and password for the VM. While you wait check out the [az vm create](https://learn.microsoft.com/cli/azure/vm?view=azure-cli-latest#az-vm-create) command reference for all the parameters associated with creating a virtual machine.
 
     ```sh
-    az vm create --name myCLIVM --resource-group az104-rg8 --image Ubuntu2204 --admin-username localadmin --generate-ssh-keys
+    az vm create --name myCLIVM --resource-group rg8-p1 --image Ubuntu2204 --admin-username localadmin --generate-ssh-keys
     ```
 
 1. Once the command completes, use **az vm show** to verify your machine was created.
 
     ```sh
-    az vm show --name  myCLIVM --resource-group az104-rg8 --show-details
+    az vm show --name  myCLIVM --resource-group rg8-p1 --show-details
     ```
 
 1. Verify the **powerState** is **VM Running**.
@@ -389,7 +389,7 @@ In this task, you scale the virtual machine scale set using a custom scale rule.
 1. Use **az vm deallocate** to deallocate your virtual machine. Type **Yes** to confirm.
 
     ```sh
-    az vm deallocate --resource-group az104-rg8 --name myCLIVM
+    az vm deallocate --resource-group rg8-p1 --name myCLIVM
     ```
 
 1. Use **az vm show** to ensure the **powerState** is **VM deallocated**.

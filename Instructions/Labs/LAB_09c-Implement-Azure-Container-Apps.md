@@ -10,7 +10,7 @@ lab:
 
 In this lab, you learn how to implement and deploy Azure Container Apps.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **East US**.
+This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **Indonesia Central**.
 
 ## Estimated timing: 15 minutes
 
@@ -40,9 +40,9 @@ Azure Container Apps take the concept of a managed Kubernetes cluster a step fur
     | Setting | Action |
     |---|---|
     | Subscription | Select your Azure subscription |
-    | Resource group | `az104-rg9` |
+    | Resource group | `rg9-p1` |
     | Container app name |  `my-app` |
-    | Region    | **East US** (|
+    | Region    | **Indonesia Central** (|
     | Container Apps Environment | Select **Create new** > Set Environment name to `my-environment` > **Create** |
 
 1. Click **Next: Container** tab and ensure that **Use quickstart image** is checked. You may need to scroll up to view this setting. 

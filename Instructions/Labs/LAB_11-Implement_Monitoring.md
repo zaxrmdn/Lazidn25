@@ -10,7 +10,7 @@ lab:
 
 In this lab, you learn about Azure Monitor. You learn to create an alert and send it to an action group. You trigger and test the alert and check the activity log.  
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **East US**.
+This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **Indonesia Central**.
 
 ## Estimated timing: 40 minutes
 
@@ -59,8 +59,8 @@ In this task, you will deploy a virtual machine that will be used to test monito
     | Setting       | Value         | 
     | ---           | ---           |
     | Subscription  | Your Azure subscription |
-    | Resource group| `az104-rg11` (If necessary, select **Create new**)
-    | Region        | **East US**   |
+    | Resource group| `rg11-p1` (If necessary, select **Create new**)
+    | Region        | **Indonesia Central**   |
     | Username      | `localadmin`   |
     | Password      | Provide a complex password |
     
@@ -118,7 +118,7 @@ In this task, if the alert is triggered send an email notification to the operat
     |---------|---------|
     | **Project details** |
     | Subscription | your subscription |
-    | Resource group | **az104-rg11** |
+    | Resource group | **rg11-p1** |
     | Region | **Global** (default) |
     | **Instance details** |
     | Action group name | `Alert the operations team` (must be unique in the resource group) |
@@ -202,7 +202,7 @@ Enter these settings for the scheduling of the alert processing rule:
 
     | Setting | Value |
     |---------|---------|
-    | Resource group | **az104-rg11** |
+    | Resource group | **rg11-p1** |
     | Rule name | `Planned Maintenance` |
     | Description | `Suppress notifications during planned maintenance.` |
 

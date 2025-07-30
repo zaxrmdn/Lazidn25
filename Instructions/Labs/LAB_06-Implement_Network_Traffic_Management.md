@@ -8,336 +8,253 @@ lab:
 
 ## Lab introduction
 
-In this lab, you learn how to configure and test a public Load Balancer and an Application Gateway.
+Pada lab ini, Anda akan mempelajari cara mengonfigurasi dan menguji Load Balancer publik serta Application Gateway.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **East US**.
+Lab ini membutuhkan langganan Azure. Jenis langganan Anda dapat memengaruhi ketersediaan fitur dalam lab ini. Anda boleh mengubah wilayah, namun langkah-langkah ditulis menggunakan wilayah **Indonesia Central**.
 
 ## Estimated timing: 50 minutes
 
 ## Lab scenario
 
-Your organization has a public website. You need to load balance incoming public requests across different virtual machines. You also need to provide images and videos from different virtual machines. You plan on implementing an Azure Load Balancer and an Azure Application Gateway. All resources are in the same region.
+Organisasi Anda memiliki situs web publik. Anda perlu mendistribusikan permintaan publik masuk ke beberapa virtual machine. Anda juga perlu menyajikan gambar dan video dari VM yang berbeda. Anda berencana untuk mengimplementasikan Azure Load Balancer dan Azure Application Gateway. Semua sumber daya berada di wilayah yang sama.
 
 ## Interactive lab simulations
 
->**Note**: The lab simulations that were previously provided have been retired.
+>**Catatan**: Simulasi interaktif pada lab sebelumnya telah dihentikan.
 
 ## Job skills
 
-+ Task 1: Use a template to provision an infrastructure.
-+ Task 2: Configure an Azure Load Balancer.
-+ Task 3: Configure an Azure Application Gateway.
++ Task 1: Gunakan template untuk menyediakan infrastruktur.
++ Task 2: Konfigurasikan Azure Load Balancer.
++ Task 3: Konfigurasikan Azure Application Gateway.
 
 ## Task 1: Use a template to provision an infrastructure
 
-In this task, you will use a template to deploy one virtual network, one network security group, and three virtual machines.
+Dalam tugas ini, Anda akan menggunakan template untuk menyebarkan satu virtual network, satu network security group, dan tiga virtual machine.
 
-1. Download the **\\Allfiles\\Lab06** lab files (template and parameters).
+1. Unduh file lab **\\Allfiles\\Lab06** (template dan parameter).
+2. Masuk ke **Azure portal** - `https://portal.azure.com`.
+3. Cari dan pilih `Deploy a custom template`.
+4. Pada halaman penyebaran, pilih **Build your own template in the editor**.
+5. Pada halaman pengeditan template, pilih **Load file**.
+6. Pilih file **\\Allfiles\\Lab06\\06-vms-template.json** dan klik **Open**.
+7. Klik **Save**.
+8. Pilih **Edit parameters** dan muat file **\\Allfiles\\Lab06\\06-vms-parameters.json**.
+9. Klik **Save**.
+10. Isi bidang seperti berikut (biarkan nilai lain default):
 
-1. Sign in to the **Azure portal** - `https://portal.azure.com`.
+    | Setting       | Value                   |
+    |---------------|-------------------------|
+    | Subscription  | langganan Azure Anda    |
+    | Resource group| `rg6-p1` (buat baru jika perlu) |
+    | Password      | Masukkan password aman  |
 
-1. Search for and select `Deploy a custom template`.
+    >**Catatan**: Jika Anda mendapat error bahwa ukuran VM tidak tersedia, pilih SKU lain yang memiliki minimal 2 core.
 
-1. On the custom deployment page, select **Build your own template in the editor**.
+11. Klik **Review + Create**, lalu **Create**.
 
-1. On the edit template page, select **Load file**.
+    >**Catatan**: Tunggu hingga penyebaran selesai (sekitar 5 menit).
 
-1. Locate and select the **\\Allfiles\\Lab06\\az104-06-vms-template.json** file and select **Open**.
-
-1. Select **Save**.
-
-1. Select **Edit parameters** and load the **\\Allfiles\\Lab06\\az104-06-vms-parameters.json** file.
-
-1. Select **Save**.
-
-1. Use the following information to complete the fields on the custom deployment page, leaving all other fields with the default value.
-
-    | Setting       | Value         |
-    | ---           | ---           |
-    | Subscription  | your Azure subscription |
-    | Resource group | `az104-rg6` (If necessary, select **Create new**) |
-    | Password      | Provide a secure password |
-
-    >**Note**: If you receive an error that the VM size is unavailable, select a SKU that is available in your subscription and has at least 2 cores.
-
-1. Select **Review + Create** and then select **Create**.
-
-    >**Note**: Wait for the deployment to complete before moving to the next task. The deployment should take approximately 5 minutes.
-
-    >**Note**: Review the resources being deployed. There will be one virtual network with three subnets. Each subnet will have a virtual machine.
+    >**Catatan**: Tinjau sumber daya yang disebarkan: satu virtual network dengan tiga subnet, dan tiap subnet memiliki satu VM.
 
 ## Task 2: Configure an Azure Load Balancer
 
-In this task, you implement an Azure Load Balancer in front of the two Azure virtual machines in the virtual network. Load Balancers in Azure provide layer 4 connectivity across resources, such as virtual machines. Load Balancer configuration includes a front-end IP address to accept connections, a backend pool, and rules that define how connections should traverse the load balancer.
+Pada tugas ini, Anda mengimplementasikan Azure Load Balancer di depan dua virtual machine. Load Balancer menyediakan konektivitas layer 4. Konfigurasinya meliputi IP publik (frontend), backend pool, dan aturan distribusi lalu lintas.
 
 ## Architecture diagram - Load Balancer
 
->**Note**: Notice the Load Balancer is distributing across two virtual machines in the same virtual network.
+>**Catatan**: Perhatikan Load Balancer mendistribusikan ke dua VM dalam virtual network yang sama.
 
 ![Diagram of the lab tasks.](../media/az104-lab06-lb-architecture.png)
 
-1. In the Azure portal, search for and select `Load balancers` and, on the **Load balancers** blade, click **+ Create**.
+1. Di portal Azure, cari dan pilih `Load balancers`, lalu klik **+ Create**.
+2. Gunakan pengaturan berikut (sisanya biarkan default):
 
-1. Create a load balancer with the following settings (leave others with their default values) then click **Next: Frontend IP configuration**:
+    | Setting       | Value             |
+    |---------------|-------------------|
+    | Subscription  | langganan Azure Anda |
+    | Resource group| `rg6-p1`        |
+    | Name          | `lb`         |
+    | Region        | wilayah sama seperti VM |
+    | SKU           | **Standard**       |
+    | Type          | **Public**         |
+    | Tier          | **Regional**       |
 
-    | Setting | Value |
-    | --- | --- |
-    | Subscription | your Azure subscription |
-    | Resource group | **az104-rg6** |
-    | Name | `az104-lb` |
-    | Region | The **same** region that you deployed the VMs |
-    | SKU  | **Standard** |
-    | Type | **Public** |
-    | Tier | **Regional** |
+3. Pada tab **Frontend IP configuration**, klik **Add a frontend IP configuration** dan gunakan:
 
-     ![Screenshot of the create load balancer page.](../media/az104-lab06-create-lb1.png)
+    | Setting             | Value         |
+    |---------------------|---------------|
+    | Name                | `fe`    |
+    | IP type             | IP address    |
+    | Gateway Load Balancer | None       |
+    | Public IP address   | Buat baru     |
 
-1. On the **Frontend IP configuration** tab, click **Add a frontend IP configuration** and use the following settings:  
+4. Di popup **Add a public IP address**, isikan:
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `az104-fe` |
-    | IP type | IP address |
-    | Gateway Load Balancer | None |
-    | Public IP address | Select **Create new** (use the instructions in the next step) |
+    | Setting             | Value         |
+    |---------------------|---------------|
+    | Name                | `lbpip` |
+    | SKU                 | Standard      |
+    | Tier                | Regional      |
+    | Assignment          | Static        |
+    | Routing Preference  | Microsoft network |
 
-1. On the **Add a public IP address** popup, use the following settings before clicking **Save** twice. When completed click **Next: Backend pools**.
+    >**Catatan:** IP statis dari SKU Standard akan tetap aktif hingga resource dihapus.
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `az104-lbpip` |
-    | SKU | Standard |
-    | Tier | Regional |
-    | Assignment | Static |
-    | Routing Preference | **Microsoft network** |
+5. Pada tab **Backend pools**, klik **Add a backend pool**, isikan:
 
-    >**Note:** The Standard SKU provides a static IP address. Static IP addresses are assigned with the resource is created and released when the resource is deleted.  
+    | Setting              | Value            |
+    |----------------------|------------------|
+    | Name                 | `be`       |
+    | Virtual network      | `06-vnet1` |
+    | Backend Pool Config. | NIC              |
+    | Tambahkan VM         | centang `06-vm0` dan `06-vm1` |
 
-1. On the **Backend pools** tab, click **Add a backend pool** with the following settings (leave others with their default values). Click **Add** and then **Save**. Click **Next: Inbound rules**.
+6. Klik **Review + create**, pastikan tidak ada error, lalu klik **Create**.
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `az104-be` |
-    | Virtual network | **az104-06-vnet1** |
-    | Backend Pool Configuration | **NIC** |
-    | Click **Add** to add a virtual machine |  |
-    | az104-06-vm0 | **check the box** |
-    | az104-06-vm1 | **check the box** |
+7. Setelah Load Balancer selesai dibuat, buka dan klik **Go to resource**.
 
-1. As you have time, review the other tabs, then click **Review + create**. Ensure there are no validation errors, then click **Create**.
+### Tambahkan aturan untuk distribusi trafik
 
-1. Wait for the load balancer to deploy then click **Go to resource**.
+1. Di bagian **Settings**, pilih **Load balancing rules**.
+2. Klik **+ Add**, isi pengaturan:
 
-**Add a rule to determine how incoming traffic is distributed**
+    | Setting             | Value         |
+    |---------------------|---------------|
+    | Name                | `lbrule`|
+    | IP Version          | IPv4          |
+    | Frontend IP Address | `fe`    |
+    | Backend pool        | `be`    |
+    | Protocol            | TCP           |
+    | Port                | 80            |
+    | Backend port        | 80            |
+    | Health probe        | Buat baru     |
+    | Probe Name          | `hp`    |
+    | Protocol            | TCP           |
+    | Port                | 80            |
+    | Interval            | 5             |
+    | Session persistence | None          |
+    | Idle timeout        | 4             |
+    | TCP reset           | Disabled      |
+    | Floating IP         | Disabled      |
+    | SNAT                | Recommended   |
 
-1. In the **Settings** blade, select **Load balancing rules**.
+3. Setelah selesai, buka tab **Frontend IP configuration**, salin alamat IP publik.
 
-1. Select **+ Add**. Add a load balancing rule with the following settings (leave others with their default values).  As you configure the rule use the informational icons to learn about each setting. When finished click **Save**.
+4. Buka browser dan akses IP tersebut. Anda akan melihat pesan dari `vm0` atau `vm1`.
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `az104-lbrule` |
-    | IP Version | **IPv4** |
-    | Frontend IP Address | **az104-fe** |
-    | Backend pool | **az104-be** |
-    | Protocol | **TCP** |
-    | Port | `80` |
-    | Backend port | `80` |
-    | Health probe | **Create new** |
-    | Name | `az104-hp` |
-    | Protocol | **TCP** |
-    | Port | `80` |
-    | Interval | `5` |
-    | Close the create health probe window | **Save** |
-    | Session persistence | **None** |
-    | Idle timeout (minutes) | `4` |
-    | TCP reset | **Disabled** |
-    | Floating IP | **Disabled** |
-    | Outbound source network address translation (SNAT) | **Recommended** |
+5. Muat ulang halaman untuk melihat Load Balancer mendistribusikan trafik.
 
-1. Select **Frontend IP configuration** from the Load Balancer page. Copy the public IP address.
-
-1. Open another browser tab and navigate to the IP address. Verify that the browser window displays the message **Hello World from az104-06-vm0** or **Hello World from az104-06-vm1**.
-
-1. Refresh the window to verify the message changes to the other virtual machine. This demonstrates the load balancer rotating through the virtual machines.
-
-    > **Note**: You may need to refresh more than once or open a new browser window in InPrivate mode.
+    > **Catatan**: Coba muat ulang beberapa kali atau gunakan jendela InPrivate.
 
 ## Task 3: Configure an Azure Application Gateway
 
-In this task, you implement an Azure Application Gateway in front of two Azure virtual machines. An Application Gateway provides layer 7 load balancing, Web Application Firewall (WAF), SSL termination, and end-to-end encryption to the resources defined in the backend pool. The Application Gateway routes images to one virtual machine and videos to the other virtual machine.
+Pada tugas ini, Anda mengimplementasikan Application Gateway untuk dua VM. Application Gateway menyediakan load balancing layer 7, WAF, SSL termination, dan enkripsi ujung ke ujung. Gateway akan merutekan `/image/*` ke satu VM dan `/video/*` ke VM lainnya.
 
 ## Architecture diagram - Application Gateway
 
->**Note**: This Application Gateway is working in the same virtual network as the Load Balancer. This may not be typical in a production environment.
+>**Catatan**: Application Gateway menggunakan virtual network yang sama dengan Load Balancer. Ini tidak umum di lingkungan produksi.
 
 ![Diagram of the lab tasks.](../media/az104-lab06-gw-architecture.png)
 
-1. In the Azure portal, search and select `Virtual networks`.
+1. Di portal Azure, buka **Virtual networks** > `06-vnet1` > **Subnets** > **+ Subnet**.
+2. Tambahkan subnet:
 
-1. On the **Virtual networks** blade, in the list of virtual networks, click **az104-06-vnet1**.
+    | Setting           | Value             |
+    |-------------------|-------------------|
+    | Name              | `subnet-appgw`    |
+    | Starting address  | `10.60.3.224`     |
+    | Size              | `/27`             |
 
-1. On the **az104-06-vnet1** virtual network blade, in the **Settings** section, click **Subnets**, and then click **+ Subnet**.
+    > **Catatan**: Application Gateway memerlukan subnet khusus dengan ukuran /27 atau lebih besar.
 
-1. Add a subnet with the following settings (leave others with their default values).
+3. Kembali ke portal, cari **Application gateways** > **+ Create**.
+4. Di tab **Basics**, isikan:
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `subnet-appgw` |
-    | Starting address| `10.60.3.224` |
-    | Size | `/27` - Ensure the **starting address** is still **10.60.3.224**|
+    | Setting               | Value               |
+    |-----------------------|---------------------|
+    | Resource group        | `rg6-p1`         |
+    | Name                  | `appgw`       |
+    | Tier                  | Standard V2         |
+    | Autoscaling           | No                  |
+    | Instance count        | 2                   |
+    | HTTP2                 | Disabled            |
+    | Virtual network       | `06-vnet1`    |
+    | Subnet                | `subnet-appgw`      |
 
-1. Click **Add**
+5. Lanjut ke tab **Frontends**, pilih:
 
-    > **Note**: This subnet will be used by the Azure Application Gateway. The Application Gateway requires a dedicated subnet of /27 or larger size.
+    | Setting           | Value         |
+    |-------------------|---------------|
+    | Type              | Public        |
+    | Public IP address | Buat baru     |
+    | Name              | `gwpip` |
+    | Availability zone | 1             |
 
-1. In the Azure portal, search and select `Application gateways` and, on the **Application Gateways** blade, click **+ Create**.
+6. Lanjut ke tab **Backends**, dan tambahkan tiga backend pool:
 
-1. On the **Basics** tab, specify the following settings (leave others with their default values):
+    - `appgwbe` untuk kedua VM
+    - `imagebe` untuk `vm1`
+    - `video` untuk `vm2`
 
-    | Setting | Value |
-    | --- | --- |
-    | Subscription | your Azure subscription |
-    | Resource group | `az104-rg6` |
-    | Application gateway name | `az104-appgw` |
-    | Region | The **same** Azure region that you used in Task 1 |
-    | Tier | **Standard V2** |
-    | Enable autoscaling | **No** |
-    | Instance count | `2` |
-    | HTTP2 | **Disabled** |
-    | Virtual network | **az104-06-vnet1** |
-    | Subnet | **subnet-appgw (10.60.3.224/27)** |
+7. Masuk ke tab **Configuration**, tambahkan routing rule:
 
-1. Click **Next: Frontends >** and specify the following settings (leave others with their default values). When complete, click **OK**.
+    | Rule name     | gwrule |
+    | Priority      | 10           |
+    | Listener name | listener |
+    | Frontend IP   | Public IPv4  |
+    | Protocol      | HTTP         |
+    | Port          | 80           |
+    | Listener type | Basic        |
 
-    | Setting | Value |
-    | --- | --- |
-    | Frontend IP address type | **Public** |
-    | Public IP address| **Add new** |
-    | Name | `az104-gwpip` |
-    | Availability zone | **1** |
+8. Buat **path-based routing**:
 
-    >**Note:** The Application Gateway can have both a public and private IP address.
- 
-1. Click **Next : Backends >** and then **Add a backend pool**. Specify the following settings (leave others with their default values). When completed click **Add**.
+    **Rule ke images**
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `az104-appgwbe` |
-    | Add backend pool without targets | **No** |
-    | Virtual machine | **az104-06-nic1 (10.60.1.4)** |
-    | Virtual machine | **az104-06-nic2 (10.60.2.4)** |
+    | Path     | /image/*         |
+    | Target   | images           |
+    | Backend  | `imagebe`  |
 
-1. Click **Add a backend pool**. This is the backend pool for **images**. Specify the following settings (leave others with their default values). When completed click **Add**.
+    **Rule ke videos**
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `az104-imagebe` |
-    | Add backend pool without targets | **No** |
-    | Virtual machine | **az104-06-nic1 (10.60.1.4)** |
+    | Path     | /video/*         |
+    | Target   | videos           |
+    | Backend  | `video`  |
 
-1. Click **Add a backend pool**. This is the backend pool for **video**. Specify the following settings (leave others with their default values). When completed click **Add**.
+9. Klik **Review + create** dan tunggu 5-10 menit.
 
-    | Setting | Value |
-    | --- | --- |
-    | Name | `az104-videobe` |
-    | Add backend pool without targets | **No** |
-    | Virtual machine | **az104-06-nic2 (10.60.2.4)** |
+10. Setelah selesai, buka `appgw` > **Backend health**, pastikan semua **Healthy**.
 
-1. Select **Next : Configuration >** and then **Add a routing rule**. Complete the information.
+11. Salin IP publik di tab **Overview**.
 
-    | Setting | Value |
-    | --- | --- |
-    | Rule name | `az104-gwrule` |
-    | Priority | `10` |
-    | Listener name | `az104-listener` |
-    | Frontend IP | **Public IPv4** |
-    | Protocol | **HTTP** |
-    | Port | `80` |
-    | Listener type | **Basic** |
-
-1. Move to the **Backend targets** tab. Select **Add** after completing the basic information.
-
-   | Setting | Value |
-    | --- | --- |
-    | Backend target | `az104-appgwbe` |
-    | Backend settings | `az104-http` (create new) |
-
-   >**Note:** Take a minute to read the information about **Cookie-based affinity** and **Connection draining**.
-
-1. In the **Path-based routing** section, select **Add multiple targets to create a path-based rule**. You will create two rules. Click **Add** after the first rule and then **Add** after the second rule. 
-
-    **Rule - routing to the images backend**
-
-    | Setting | Value |
-    | --- | --- |
-    | Path | `/image/*` |
-    | Target name | `images` |
-    | Backend settings | **az104-http** |
-    | Backend target | `az104-imagebe` |
-
-    **Rule - routing to the videos backend**
-
-    | Setting | Value |
-    | --- | --- |
-    | Path | `/video/*` |
-    | Target name | `videos` |
-    | Backend settings | **az104-http** |
-    | Backend target | `az104-videobe` |
-
-1. Be sure to check your changes, then select **Next : Tags >**. No changes are needed.
-
-1. Select **Next : Review + create >** and then click **Create**.
-
-    > **Note**: Wait for the Application Gateway instance to be created. This will take approximately 5-10 minutes. While you wait consider reviewing some of the self-paced training links at the end of this page.
-
-1. After the application gateway deploys, search for and select **az104-appgw**.
-
-1. In the **Application Gateway** resource, in the **Monitoring** section, select **Backend health**.
-
-1. Ensure both servers in the backend pool display **Healthy**.
-
-1. On the **Overview** blade, copy the value of the **Frontend public IP address**.
-
-1. Start another browser window and test this URL - `http://<frontend ip address>/image/`.
-
-1. Verify you are directed to the image server (vm1).
-
-1. Start another browser window and test this URL - `http://<frontend ip address>/video/`.
-
-1. Verify you are directed to the video server (vm2).
-
-> **Note**: You may need to refresh more than once or open a new browser window in InPrivate mode.
+12. Akses URL `http://<ip>/image/` dan `http://<ip>/video/` untuk menguji.
 
 ## Cleanup your resources
 
-If you are working with **your own subscription** take a minute to delete the lab resources. This will ensure resources are freed up and cost is minimized. The easiest way to delete the lab resources is to delete the lab resource group. 
+Jika menggunakan langganan pribadi, hapus resource untuk menghindari biaya:
 
-+ In the Azure portal, select the resource group, select **Delete the resource group**, **Enter resource group name**, and then click **Delete**.
-+ Using Azure PowerShell, `Remove-AzResourceGroup -Name resourceGroupName`.
-+ Using the CLI, `az group delete --name resourceGroupName`.
+- Di portal: buka resource group, klik **Delete resource group**.
+- PowerShell: `Remove-AzResourceGroup -Name resourceGroupName`
+- CLI: `az group delete --name resourceGroupName`
 
 ## Extend your learning with Copilot
 
-Copilot can assist you in learning how to use the Azure scripting tools. Copilot can also assist in areas not covered in the lab or where you need more information. Open an Edge browser and choose Copilot (top right) or navigate to *copilot.microsoft.com*. Take a few minutes to try these prompts.
+Cobalah prompt berikut di *copilot.microsoft.com*:
 
-+ Compare and contrast the Azure Load Balancer with the Azure Application Gateway. Help me decide in which scenarios I should use each product.
-+ What tools are available to troubleshoot connections to an Azure Load Balancer? 
-+ What are the basic steps for configuring the Azure Application Gateway? Provide a high-level checklist. 
-+ Create a table highlighting three Azure load balancing solutions. For each solution show supported protocols, routing policies, session affinity, and TLS offloading.
-  
++ Bandingkan Azure Load Balancer dan Application Gateway.
++ Alat untuk troubleshooting koneksi Load Balancer.
++ Langkah-langkah konfigurasi Application Gateway.
++ Tabel perbandingan solusi load balancing di Azure.
+
 ## Learn more with self-paced training
 
-+ [Improve application scalability and resiliency by using Azure Load Balancer](https://learn.microsoft.com/training/modules/improve-app-scalability-resiliency-with-load-balancer/). Discuss the different load balancers in Azure and how to choose the right Azure load balancer solution to meet your requirements.
-+ [Load balance your web service traffic with Application Gateway](https://learn.microsoft.com/training/modules/load-balance-web-traffic-with-application-gateway/). Improve application resilience by distributing load across multiple servers and use path-based routing to direct web traffic.
++ [Improve application scalability and resiliency by using Azure Load Balancer](https://learn.microsoft.com/training/modules/improve-app-scalability-resiliency-with-load-balancer/)
++ [Load balance your web service traffic with Application Gateway](https://learn.microsoft.com/training/modules/load-balance-web-traffic-with-application-gateway/)
 
 ## Key takeaways
 
-Congratulations on completing the lab. Here are the key points for this lab.
-
-+ Azure Load Balancer is an excellent choice for distributing network traffic across multiple virtual machines at the transport layer (OSI layer 4 - TCP and UDP).
-+ Public Load Balancers are used to load balance internet traffic to your VMs. An internal (or private) load balancer is used where private IPs are needed at the frontend only.
-+ The Basic load balancer is for small-scale applications that don't need high availability or redundancy. The Standard load balancer is for high performance and ultra-low latency.
-+ Azure Application Gateway is a web traffic (OSI layer 7) load balancer that enables you to manage traffic to your web applications.
-+ The Application Gateway Standard tier offers all the L7 functionality, including load balancing, The WAF tier adds a firewall to check for malicious traffic.
-+ An Application Gateway can make routing decisions based on additional attributes of an HTTP request, for example URI path or host headers.
++ Load Balancer cocok untuk distribusi trafik di level transport (layer 4).
++ Load Balancer publik menangani trafik dari internet, sedangkan internal untuk private IP.
++ Load Balancer Standard cocok untuk performa tinggi dan latensi rendah.
++ Application Gateway cocok untuk trafik web (layer 7), dengan WAF dan SSL offloading.
++ Dapat merutekan berdasarkan URI path atau host headers.

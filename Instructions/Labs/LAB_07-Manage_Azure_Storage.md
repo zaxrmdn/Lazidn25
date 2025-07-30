@@ -8,19 +8,19 @@ lab:
 
 ## Lab introduction
 
-In this lab you learn to create storage accounts for Azure blobs and Azure files. You learn to configure and secure blob containers. You also learn to use Storage Browser to configure and secure Azure file shares. 
+Dalam lab ini Anda akan mempelajari cara membuat storage account untuk Azure blobs dan Azure files. Anda akan belajar cara mengonfigurasi dan mengamankan blob containers. Anda juga belajar menggunakan Storage Browser untuk mengonfigurasi dan mengamankan Azure file shares.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **East US**.
+Lab ini membutuhkan langganan Azure. Jenis langganan Anda dapat memengaruhi ketersediaan fitur dalam lab ini. Anda boleh mengganti wilayah, namun langkah‑langkah ditulis menggunakan **Indonesia Central**.
 
 ## Estimated timing: 50 minutes
 
 ## Lab scenario
 
-Your organization is currently storing data in on-premises data stores. Most of these files are not accessed frequently. You would like to minimize the cost of storage by placing infrequently accessed files in lower-priced storage tiers. You also plan to explore different protection mechanisms that Azure Storage offers, including network access, authentication, authorization, and replication. Finally, you want to determine to what extent Azure Files is suitable for hosting your on-premises file shares.
+Organisasi Anda saat ini menyimpan data di penyimpanan on‑premises. Sebagian besar file jarang diakses. Anda ingin meminimalkan biaya penyimpanan dengan memindahkan file yang jarang diakses ke tier storage dengan harga lebih rendah. Anda juga berencana mengeksplorasi berbagai mekanisme proteksi yang tersedia di Azure Storage, termasuk akses jaringan, autentikasi, otorisasi, dan replikasi. Akhirnya, Anda ingin mengetahui seberapa cocok Azure Files sebagai host untuk file shares on‑premises Anda.
 
 ## Interactive lab simulations
 
->**Note**: The lab simulations that were previously provided have been retired.
+>**Catatan**: Simulasi lab interaktif sebelumnya telah dihentikan.
 
 ## Architecture diagram
 
@@ -28,237 +28,193 @@ Your organization is currently storing data in on-premises data stores. Most of 
 
 ## Job skills
 
-+ Task 1: Create and configure a storage account. 
-+ Task 2: Create and configure secure blob storage.
++ Task 1: Create and configure a storage account.  
++ Task 2: Create and configure secure blob storage.  
 + Task 3: Create and configure secure Azure file storage.
 
-## Task 1: Create and configure a storage account. 
+## Task 1: Create and configure a storage account.
 
-In this task, you will create and configure a storage account. The storage account will use geo-redundant storage and will not have public access. 
+Dalam tugas ini Anda akan membuat dan mengonfigurasi storage account. Storage account akan menggunakan geo-redundant storage dan tanpa akses publik.
 
-1. Sign in to the **Azure portal** - `https://portal.azure.com`.
-
-1. Search for and select `Storage accounts`, and then click **+ Create**.
-
-1. On the **Basics** tab of the **Create a storage account** blade, specify the following settings (leave others with their default values):
+1. Masuk ke **Azure portal** – `https://portal.azure.com`.  
+2. Cari dan pilih `Storage accounts`, lalu klik **+ Create**.  
+3. Pada tab **Basics**, isi pengaturan berikut (biarkan sisa default):
 
     | Setting | Value |
-    | --- | --- |
-    | Subscription          | the name of your Azure subscription  |
-    | Resource group        | **az104-rg7** (create new) |
-    | Storage account name  | any globally unique name between 3 and 24 in length consisting of letters and digits |
-    | Region                | **(US) East US**  |
-    | Performance           | **Standard** (notice the Premium option) |
-    | Redundancy            | **Geo-redundant storage** (notice the other options)|
-    | Make read access to data in the event of regional availability | Check the box |
+    |--------|-------|
+    | Subscription | nama langganan Azure Anda |
+    | Resource group | **rg7-p1** (buat baru) |
+    | Storage account name | nama unik global, 3–24 karakter huruf & angka |
+    | Region | **Indonesia Central** |
+    | Performance | **Standard** |
+    | Redundancy | **Geo-redundant storage** |
+    | Make read access… | Centang kotak |
 
-    >**Did you know?** You should use the Standard performance tier for most applications. Use the Premium performance tier for enterprise or high-performance applications. 
+    >**Catatan**: Gunakan tier Standard untuk aplikasi umum, Premium untuk kebutuhan performa tinggi.
 
-1. On the **Advanced** tab, use the informational icons to learn more about the choices. Take the defaults. 
+4. Pada tab **Advanced**, baca info tambahan, biarkan default.  
+5. Pada tab **Networking**, di bagian **Network access**, pilih **Disable public access and use private access**.  
+6. Tinjau tab **Data protection**—retensi soft delete default 7 hari, dan versi blob bisa diaktifkan. Biarkan default.  
+7. Tinjau tab **Encryption**, biarkan default.  
+8. Klik **Review + Create**, tunggu validasi selesai, lalu klik **Create**.  
+9. Setelah selesai, klik **Go to resource**.  
+10. Tinjau blade **Overview** dan konfigurasi global lainnya. Perhatikan bahwa storage account bisa dipakai untuk Blob, File shares, Queues, dan Tables.  
+11. Di blade **Security + networking**, pilih **Networking**. 
+    + Perhatikan **Public network access** yang dinonaktifkan.  
+    + Ubah ke **Enable from selected networks and IP addresses**.  
+    + Di bagian **Firewall**, centang untuk **Add your client IP address**.  
+    + Simpan perubahan.  
+12. Di blade **Data management**, pilih **Redundancy**, perhatikan lokasi pusat data primer dan sekunder.  
+13. Di blade **Data management**, pilih **Lifecycle management**, lalu klik **Add a rule**.
 
-1. On the **Networking** tab, in the **Network access** section, select **Disable public access and use private access**. This will restrict inbound access while allowing outbound access. 
-
-1. Review the **Data protection** tab. Notice 7 days is the default soft delete retention policy. Note you can enable versioning for blobs. Accept the defaults.
-
-1. Review the **Encryption** tab. Notice the additional security options. Accept the defaults.
-
-1. Select **Review + Create**, wait for the validation process to complete, and then click **Create**.
-
-1. Once the storage account is deployed, select **Go to resource**.
-
-1. Review the **Overview** blade and the additional configurations that can be changed. These are global settings for the storage account. Notice the storage account can be used for Blob containers, File shares, Queues, and Tables.
-
-1. In the **Security + networking** blade, select **Networking**. Notice **Public network access** is disabled.
-
-    + Change the **Public network access** to **Enable from selected networks and IP addresses**.
-    + In the **Firewall** section, select the checkbox to **Add your client IP address**.
-    + Save your changes.
-  
-1. In the **Data management** blade, select **Redundancy**. Notice the information about your primary and secondary data center locations.
-
-1. In the **Data management** blade, select **Lifecycle management**, and then select **Add a rule**.
-
-    + **Name** the rule `Movetocool`. Notice your options for limiting the scope of the rule. Click **Next**. 
-    
-    + On the **Base blobs** tab, *if* based blobs were last modified more than `30 days` ago *then* **Move to cool storage**. Notice your other choices. 
-    
-    + Notice you can configure other conditions. Select **Add** when you are done exploring.
+    + Namai rule `Movetocool`. Perhatikan pilihan cakupan rule. Klik **Next**.  
+    + Di tab **Base blobs**, jika blob tidak diubah lebih dari `30 days` lalu **Move to cool storage**.  
+    + Anda bisa menjelajahi kondisi lain. Setelah selesai, klik **Add**.
 
     ![Screenshot move to cool rule conditions.](../media/az104-lab07-movetocool.png)
 
 ## Task 2: Create and configure secure blob storage
 
-In this task, you will create a blob container and upload an image. Blob containers are directory-like structures that store unstructured data.
+Anda akan membuat container blob dan meng-upload file gambar. Blob container adalah struktur seperti direktori untuk menyimpan data tidak terstruktur.
 
 ### Create a blob container and a time-based retention policy
 
-1. Continue in the Azure portal, working with your storage account.
-
-1. In the **Data storage** blade, select **Containers**. 
-
-1. Click **+ Add container** and **Create** a container with the following settings:
+1. Di portal Azure, di dalam storage account Anda, pilih blade **Data storage** → **Containers**.  
+2. Klik **+ Add container** dan buat container dengan:
 
     | Setting | Value |
-    | --- | --- |
-    | Name | `data`  |
-    | Public access level | Notice the access level is set to private |
+    |---------|-------|
+    | Name    | `data` |
+    | Public access level | Private |
 
     ![Screenshot of create a container.](../media/az104-lab07-create-container.png)
 
-1. On your container, scroll to the ellipsis (...) on the far right, select **Access Policy**.
-
-1. In the **Immutable blob storage** area, select **Add policy**.
+3. Pada container, klik elipsis (…) di kanan, pilih **Access Policy**.  
+4. Di area **Immutable blob storage**, klik **Add policy**:
 
     | Setting | Value |
-    | --- | --- |
-    | Policy type | **Time-based retention**  |
-    | Set retention period for | `180` days |
+    |---------|-------|
+    | Policy type | Time-based retention |
+    | Set retention period | 180 hari |
 
-1. Select **Save**.
+5. Klik **Save**.
 
 ### Manage blob uploads
 
-1. Return to the containers page, select your **data** container and then click **Upload**.
+1. Kembali ke halaman containers, pilih container **data**, lalu klik **Upload**.  
+2. Di blade **Upload blob**, buka bagian **Advanced**.
 
-1. On the **Upload blob** blade, expand the **Advanced** section.
-
-    >**Note**: Locate a file to upload. This can be any type of file, but a small file is best. A sample file can be downloaded from the AllFiles directory. 
+    >**Catatan**: Pilih file kecil (misalnya dari direktori AllFiles).
 
     | Setting | Value |
-    | --- | --- |
-    | Browse for files | add the file you have selected to upload |
-    | Select **Advanced** | |
-    | Blob type | **Block blob** |
-    | Block size | **4 MiB** |
-    | Access tier | **Hot**  (notice the other options) |
+    |---------|-------|
+    | Browse for files | pilih file untuk di-upload |
+    | Blob type | Block blob |
+    | Block size | 4 MiB |
+    | Access tier | Hot |
     | Upload to folder | `securitytest` |
-    | Encryption scope | Use existing default container scope |
+    | Encryption scope | Gunakan default container scope |
 
-1. Click **Upload**.
+3. Klik **Upload**.  
+4. Konfirmasi folder baru dan file sudah ter-upload.  
+5. Pilih file yang di-upload dan tinjau opsi seperti **Download**, **Delete**, **Change tier**, **Acquire lease**.  
+6. Salin URL file (dari blade Properties), lalu buka di jendela browser InPrivate.  
+7. Anda akan melihat pesan XML seperti **ResourceNotFound** atau **PublicAccessNotPermitted**.
 
-1. Confirm you have a new folder, and your file was uploaded. 
-
-1. Select your upload file and review the options including **Download**, **Delete**, **Change tier**, and **Acquire lease**.
-
-1. Copy the file **URL** (Properties blade) and paste into a new **Inprivate** browsing window.
-
-1. You should be presented with an XML-formatted message stating **ResourceNotFound** or **PublicAccessNotPermitted**.
-
-    > **Note**: This is expected, since the container you created has the public access level set to **Private (no anonymous access)**.
+    >**Catatan**: Ini normal karena container diatur sebagai private.
 
 ### Configure limited access to the blob storage
 
-1. Browse back to the file that you uploaded and select the ellipsis (…) to the far right, then select **Generate SAS** and specify the following settings (leave others with their default values):
+1. Kembali ke file yang di-upload, klik elipsis (…) → pilih **Generate SAS**, isi:
 
     | Setting | Value |
-    | --- | --- |
-    | Signing key | **Key 1** |
-    | Permissions | **Read** (notice your other choices) |
-    | Start date | yesterday's date |
-    | Start time | current time |
-    | Expiry date | tomorrow's date |
-    | Expiry time | current time |
-    | Allowed IP addresses | leave blank |
+    |---------|-------|
+    | Signing key | Key 1 |
+    | Permissions | Read |
+    | Start date | tanggal kemarin |
+    | Start time | waktu sekarang |
+    | Expiry date | tanggal besok |
+    | Expiry time | waktu sekarang |
+    | Allowed IP addresses | kosong |
 
-1. Click **Generate SAS token and URL**.
+2. Klik **Generate SAS token and URL**.  
+3. Salin **Blob SAS URL** ke clipboard.  
+4. Buka jendela InPrivate baru, tempel dan buka URL tersebut.
 
-1. Copy the **Blob SAS URL** entry to the clipboard.
-
-1. Open another InPrivate browser window and navigate to the Blob SAS URL you copied in the previous step.
-
-    >**Note**: You should be able to view the content of the file. 
+    >**Catatan**: Anda seharusnya dapat melihat isi file tersebut.
 
 ## Task 3: Create and configure an Azure File storage
 
-In this task, you will create and configure Azure File shares. You will use Storage Browser to manage the file share. 
+Anda akan membuat dan mengonfigurasi file share serta menggunakan Storage Browser untuk mengelolanya.
 
 ### Create the file share and upload a file
 
-1. In the Azure portal, navigate back to your storage account, in the **Data storage** blade, click **File shares**.
-
-1. Click **+ File share** and on the **Basics** tab give the file share a name, `share1`. 
-
-1. Notice the **Access tier** options. Keep the default **Transaction optimized**.
-   
-1. Move to the **Backup** tab and ensure **Enable backup** is **not** checked. We are disabling backup to simplify the lab configuration.
-
-1. Click **Review + create**, and then **Create**. Wait for the file share to deploy.
+1. Di portal Azure, kembali ke storage account Anda, di blade **Data storage**, pilih **File shares**.  
+2. Klik **+ File share**, beri nama `share1`.  
+3. Perhatikan opsi **Access tier**, biarkan default (Transaction optimized).  
+   Di tab **Backup**, pastikan **Enable backup** tidak dicentang.  
+4. Klik **Review + create**, lalu **Create**. Tunggu file share selesai dibuat.
 
     ![Screenshot of the create file share page.](../media/az104-lab07-create-share.png)
 
 ### Explore Storage Browser and upload a file
 
-1. Return to your storage account and select **Storage browser**. The Azure Storage Browser is a portal tool that lets you quickly view all the storage services under your account.
+1. Kembali ke storage account, pilih **Storage browser**.  
+2. Pilih **File shares** dan pastikan direktori `share1` muncul.  
+3. Pilih direktori `share1`, Anda bisa **+ Add directory**.  
+4. Klik **Upload**, pilih file, lalu klik **Upload**.
 
-1. Select **File shares** and verify your **share1** directory is present.
-
-1. Select your **share1** directory and notice you can **+ Add directory**. This lets you create a folder structure.
-
-1. Select **Upload**. Browse to a file of your choice, and then click **Upload**.
-
-    >**Note**: You can view file shares and manage those shares in the Storage Browser. There are currently no restrictions.
+    >**Catatan**: Anda dapat melihat dan mengelola file share tanpa pembatasan di Storage Browser.
 
 ### Restrict network access to the storage account
 
-1. In the portal, search for and select **Virtual networks**.
+1. Di portal, cari dan pilih **Virtual networks**.  
+2. Klik **+ Create**, pilih resource group Anda, beri nama `vnet1`.  
+3. Gunakan default setting lainnya, klik **Review + create**, lalu **Create**.  
+4. Setelah selesai, klik **Go to resource**.  
+5. Di bagian **Settings**, pilih blade **Service endpoints**:  
+    + Klik **Add**.  
+    + Pada drop‑down **Services**, pilih **Microsoft.Storage**.  
+    + Pada drop‑down **Subnets**, centang subnet **Default**.  
+    + Klik **Add**.  
+6. Kembali ke storage account Anda.  
+7. Di blade **Security + networking**, pilih **Networking**.  
+8. Pilih **Add existing virtual network**, pilih `vnet1` dan subnet `default`, lalu klik **Add**.  
+9. Di bagian **Firewall**, hapus alamat IP mesin Anda. Trafik diperbolehkan hanya dari virtual network.  
+10. Simpan perubahan.  
 
-1. Select **+ Create**. Select your resource group. and give the virtual network a **name**, `vnet1`.
+    >**Catatan**: Sekarang storage account hanya bisa diakses dari virtual network yang dibuat.  
+11. Buka **Storage browser**, klik **Refresh**, lalu navigasi ke file share atau blob.  
 
-1. Take the defaults for other parameters, select **Review + create**, and then **Create**.
+    >**Catatan**: Anda akan menerima pesan *not authorized to perform this operation* karena tidak sedang dari virtual network.
 
-1. Wait for the virtual network to deploy, and then select **Go to resource**.
-
-1. In the **Settings** section, select the **Service endpoints** blade.
-    + Select **Add**. 
-    + In the **Services** drop-down select **Microsoft.Storage**.
-    + In the **Subnets** drop-down check the **Default** subnet.
-    + Click **Add** to save your changes.  
-
-1. Return to your storage account.
-
-1. In the **Security + networking** blade, select **Networking**.
-
-1. Select **Add existing virtual network** and select **vnet1** and **default** subnet, select **Add**.
-
-1. In the **Firewall** section, **Delete** your machine IP address. Allowed traffic should only come from the virtual network. 
-
-1. Be sure to **Save** your changes.
-
-    >**Note:** The storage account should now only be accessed from the virtual network you just created. 
-
-1. Select the **Storage browser** and **Refresh** the page. Navigate to your file share or blob content.  
-
-    >**Note:** You should receive a message *not authorized to perform this operation*. You are not connecting from the virtual network. It may take a couple of minutes for this to take effect.
-
-
-![Screenshot unauthorized access.](../media/az104-lab07-notauthorized.png)
+    ![Screenshot unauthorized access.](../media/az104-lab07-notauthorized.png)
 
 ## Cleanup your resources
 
-If you are working with **your own subscription** take a minute to delete the lab resources. This will ensure resources are freed up and cost is minimized. The easiest way to delete the lab resources is to delete the lab resource group. 
+Jika menggunakan langganan pribadi, hapus resource untuk menghindari biaya:
 
-+ In the Azure portal, select the resource group, select **Delete the resource group**, **Enter resource group name**, and then click **Delete**.
-+ Using Azure PowerShell, `Remove-AzResourceGroup -Name resourceGroupName`.
-+ Using the CLI, `az group delete --name resourceGroupName`.
+- Di portal: buka resource group, klik **Delete the resource group**, ketik nama resource group, lalu klik **Delete**.  
+- PowerShell: `Remove-AzResourceGroup -Name resourceGroupName`  
+- CLI: `az group delete --name resourceGroupName`
 
 ## Extend your learning with Copilot
-Copilot can assist you in learning how to use the Azure scripting tools. Copilot can also assist in areas not covered in the lab or where you need more information. Open an Edge browser and choose Copilot (top right) or navigate to *copilot.microsoft.com*. Take a few minutes to try these prompts.
 
-+ Provide an Azure PowerShell script to create a storage account with a blob container. 
-+ Provide a checklist I can use to ensure my Azure storage account is secure.
-+ Create a table to compare Azure storage redundancy models.
+Coba prompt berikut di *copilot.microsoft.com*:
 
-## Learn more with self-paced training
++ Sediakan skrip PowerShell Azure untuk membuat storage account dengan container blob.  
++ Buat checklist untuk memastikan storage account Azure Anda aman.  
++ Buat tabel perbandingan model redudansi Azure storage.
 
-+ [Optimize your cost with Azure Blob Storage](https://learn.microsoft.com/training/modules/optimize-your-cost-azure-blob-storage/). Learn how to optimize your cost with Azure Blob Storage.
-+ [Control access to Azure Storage with shared access signatures](https://learn.microsoft.com/training/modules/control-access-to-azure-storage-with-sas/). Grant access to data stored in your Azure Storage accounts securely by using shared access signatures.
+## Learn more with self‑paced training
+
++ [Optimize your cost with Azure Blob Storage](https://learn.microsoft.com/training/modules/optimize-your-cost-azure-blob-storage/)  
++ [Control access to Azure Storage with shared access signatures](https://learn.microsoft.com/training/modules/control-access-to-azure-storage-with-sas/)
 
 ## Key takeaways
 
-Congratulations on completing the lab. Here are the main takeaways for this lab. 
-
-+ An Azure storage account contains all your Azure Storage data objects: blobs, files, queues, and tables. The storage account provides a unique namespace for your Azure Storage data that is accessible from anywhere in the world over HTTP or HTTPS.
-+ Azure storage provides several redundancy models including Locally redundant storage (LRS), Zone-redundant storage (ZRS), and Geo-redundant storage (GRS). 
-+ Azure blob storage allows you to store large amounts of unstructured data on Microsoft's data storage platform. Blob stands for Binary Large Object, which includes objects such as images and multimedia files.
-+ Azure file Storage provides shared storage for structured data. The data can be organized in folders.
-+ Immutable storage provides the capability to store data in a write once, read many (WORM) state. Immutable storage policies can be time-based or legal-hold.
++ Azure storage account mencakup objek penyimpanan: blobs, file shares, queues, dan tables. Memberi namespace unik yang dapat diakses dari mana saja via HTTP/HTTPS.  
++ Azure storage menawarkan beberapa model redudansi seperti LRS, ZRS, dan GRS.  
++ Azure blob storage memungkinkan penyimpanan data tidak terstruktur dalam jumlah besar—misalnya gambar atau multimedia.  
++ Azure File Storage menyediakan shared storage untuk data terstruktur yang dapat diatur dalam folder.  
++ Immutable storage memungkinkan penyimpanan dalam status write once, read many (WORM). Kebijakan bisa berbasis waktu atau legal-hold.

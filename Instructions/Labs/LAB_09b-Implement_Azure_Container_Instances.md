@@ -10,7 +10,7 @@ lab:
 
 In this lab, you learn how to implement and deploy Azure Container Instances.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **East US**.
+This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **Indonesia Central**.
 
 ## Estimated timing: 15 minutes
 
@@ -44,9 +44,9 @@ In this task, you will create a simple web application using a Docker image. Doc
     | Setting | Value |
     | ---- | ---- |
     | Subscription | Select your Azure subscription |
-    | Resource group | `az104-rg9` (If necessary, select **Create new**) |
-    | Container name | `az104-c1` |
-    | Region | **East US** (or a region available near you)|
+    | Resource group | `rg9-p1` (If necessary, select **Create new**) |
+    | Container name | `c1` |
+    | Region | **Indonesia Central** (or a region available near you)|
     | Image Source | **Quickstart images** |
     | Image | **mcr.microsoft.com/azuredocs/aci-helloworld:latest (Linux)** |
 
