@@ -58,9 +58,9 @@ Dalam tugas ini, kamu akan membuat dua VM Azure di dua Availability Zone yang be
     | Availability options | `Availability zone` |
     | Availability zone | `Zone 1, 2` |
     | Security type | `Standard` |
-    | Image | `Windows Server 2019 Datacenter - x64 Gen2` |
+    | Image | `Ubuntu 22.05 - x64 Gen2` |
     | Azure Spot instance | Tidak dicentang |
-    | Size | `Standard D2s v3` |
+    | Size | `Standard b1s` |
     | Username | `localadmin` |
     | Password | Buat password aman |
     | Public inbound ports | `None` |
@@ -72,7 +72,7 @@ Dalam tugas ini, kamu akan membuat dua VM Azure di dua Availability Zone yang be
 
     | Pengaturan | Nilai |
     |------------|-------|
-    | OS disk type | `Premium SSD` |
+    | OS disk type | `Standard HDD` |
     | Delete with VM | Dicentang |
     | Enable Ultra Disk compatibility | Tidak dicentang |
 
@@ -158,8 +158,8 @@ Dalam tugas ini, kamu akan melakukan scaling VM dengan mengganti SKU (ukuran). K
     | Region | `Indonesia Central` |
     | Availability zone | `Zones 1, 2, 3` |
     | Orchestration mode | `Uniform` |
-    | Image | `Windows Server 2019 Datacenter - x64 Gen2` |
-    | Size | `Standard D2s_v3` |
+    | Image | `Ubuntu 22.04 x64` |
+    | Size | `Standard b1s` |
     | Username | `localadmin` |
     | Password | Buat password aman |
 
