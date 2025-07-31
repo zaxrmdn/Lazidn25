@@ -8,422 +8,344 @@ lab:
 
 ## Lab introduction
 
-In this lab, you create and compare virtual machines to virtual machine scale sets. You learn how to create, configure and resize a single virtual machine. You learn how to create a virtual machine scale set and configure autoscaling.
+Pada lab ini, kamu akan membuat dan membandingkan Virtual Machine (VM) dengan Virtual Machine Scale Set. Kamu akan mempelajari cara membuat, mengkonfigurasi, dan mengubah ukuran satu VM, serta membuat dan mengkonfigurasi Virtual Machine Scale Set dengan autoscaling.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **Indonesia Central**.
+Lab ini memerlukan langganan Azure. Jenis langganan kamu mungkin mempengaruhi ketersediaan fitur. Langkah-langkah dalam lab ini menggunakan wilayah **Indonesia Central**.
 
-## Estimated timing: 50 minutes
+## Estimasi waktu: 50 menit
 
 ## Lab scenario
 
-Your organization wants to explore deploying and configuring Azure virtual machines. First, you implement an Azure virtual machine with manual scaling. Next, you implement a Virtual Machine Scale Set and explore autoscaling.
+Organisasi kamu ingin mengeksplorasi penerapan dan konfigurasi VM di Azure. Pertama, kamu akan membuat VM dengan skala manual, kemudian membuat Virtual Machine Scale Set dan mengeksplorasi fitur autoscaling.
 
 ## Interactive lab simulations
 
->**Note**: The lab simulations that were previously provided have been retired.
+>**Catatan**: Simulasi lab yang sebelumnya tersedia sudah dihentikan.
 
 ## Job skills
 
-+ Task 1: Deploy zone-resilient Azure virtual machines by using the Azure portal.
-+ Task 2: Manage compute and storage scaling for virtual machines.
-+ Task 3: Create and configure Azure Virtual Machine Scale Sets.
-+ Task 4: Scale Azure Virtual Machine Scale Sets.
-+ Task 5: Create a virtual machine using Azure PowerShell (optional 1).
-+ Task 6: Create a virtual machine using the CLI (optional 2).
++ Task 1: Deploy VM Azure yang tahan terhadap zona menggunakan Azure portal.
++ Task 2: Kelola skala compute dan storage untuk VM.
++ Task 3: Buat dan konfigurasikan Azure Virtual Machine Scale Sets.
++ Task 4: Lakukan skala pada Virtual Machine Scale Sets.
++ Task 5: Buat VM menggunakan Azure PowerShell (opsional 1).
++ Task 6: Buat VM menggunakan Azure CLI (opsional 2).
 
 ## Azure Virtual Machines Architecture Diagram
 
-![Diagram of the vm architecture tasks.](../media/az104-lab08-vm-architecture.png)
+![Diagram arsitektur VM.](../media/az104-lab08-vm-architecture.png)
 
 ## Task 1: Deploy zone-resilient Azure virtual machines by using the Azure portal
 
-In this task, you will deploy two Azure virtual machines into different availability zones by using the Azure portal. Availability zones offer the highest level of uptime SLA for virtual machines at 99.99%. To achieve this SLA, you must deploy at least two virtual machines across different availability zones.
+Dalam tugas ini, kamu akan membuat dua VM Azure di dua Availability Zone yang berbeda menggunakan Azure portal. Availability Zone menawarkan SLA uptime tertinggi sebesar 99,99%. Untuk memenuhi SLA ini, minimal kamu harus menerapkan dua VM di dua zone berbeda.
 
-1. Sign in to the Azure portal - `https://portal.azure.com`.
+1. Masuk ke Azure portal - `https://portal.azure.com`.
 
-1. Search for and select `Virtual machines`, on the **Virtual machines** blade, click **+ Create**, and then select in the drop-down **Azure virtual machine**. Notice your other choices.
+2. Cari dan pilih `Virtual machines`, kemudian klik **+ Create**, pilih **Azure virtual machine**.
 
-1. On the **Basics** tab, in the **Availability zone** drop down menu, place a checkmark next to **Zone 2**. This should select both **Zone 1** and **Zone 2**.
+3. Di tab **Basics**, pada menu drop-down **Availability zone**, centang **Zone 2**. Ini otomatis akan memilih **Zone 1** dan **Zone 2**.
 
-    >**Note**: This will deploy two virtual machines in the selected region, one in each zone. You achieve the 99.99% uptime SLA because you have at least two VMs distributed across at least two zones. In the scenario where you might only need one VM, it is a best practice to still deploy the VM to another zone.
+   >**Catatan**: Ini akan menerapkan dua VM, masing-masing di zone berbeda. Hal ini memungkinkan SLA 99,99%. Meskipun hanya memerlukan satu VM, sebaiknya tetap memilih zone yang berbeda.
 
-1. On the Basics tab, continue completing the configuration:
+4. Lanjutkan mengisi pengaturan di tab **Basics**:
 
-    | Setting | Value |
-    | --- | --- |
-    | Subscription | the name of your Azure subscription |
-    | Resource group |  **rg8-p1** (If necessary, click **Create new**) |
-    | Virtual machine names | `vm1` and `vm2` (After selecting both availability zones, select **Edit names** under the VM name field.) |
-    | Region | **Indonesia Central** |
-    | Availability options | **Availability zone** |
-    | Availability zone | **Zone 1, 2** (read the note about using virtual machine scale sets) |
-    | Security type | **Standard** |
-    | Image | **Windows Server 2019 Datacenter - x64 Gen2** |
-    | Azure Spot instance | **unchecked** |
-    | Size | **Standard D2s v3** |
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Subscription | Nama langganan Azure kamu |
+    | Resource group | `rg8-p1` (buat baru jika perlu) |
+    | Virtual machine names | `vm1` dan `vm2` (edit nama setelah memilih kedua zone) |
+    | Region | `Indonesia Central` |
+    | Availability options | `Availability zone` |
+    | Availability zone | `Zone 1, 2` |
+    | Security type | `Standard` |
+    | Image | `Windows Server 2019 Datacenter - x64 Gen2` |
+    | Azure Spot instance | Tidak dicentang |
+    | Size | `Standard D2s v3` |
     | Username | `localadmin` |
-    | Password | **Provide a secure password** |
-    | Public inbound ports | **None** |
-    | Would you like to use an existing Windows Server license? | **Unchecked** |
+    | Password | Buat password aman |
+    | Public inbound ports | `None` |
+    | Existing Windows Server license | Tidak dicentang |
 
-    ![Screenshot of the create vm page.](../media/az104-lab08-create-vm.png)
+    ![Tampilan halaman create VM](../media/az104-lab08-create-vm.png)
 
-1. Click **Next : Disks >** , specify the following settings (leave others with their default values):
+5. Klik **Next: Disks >**, atur pengaturan berikut:
 
-    | Setting | Value |
-    | --- | --- |
-    | OS disk type | **Premium SSD** |
-    | Delete with VM | **checked** (default) |
-    | Enable Ultra Disk compatibility | **Unchecked** |
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | OS disk type | `Premium SSD` |
+    | Delete with VM | Dicentang |
+    | Enable Ultra Disk compatibility | Tidak dicentang |
 
-1. Click **Next : Networking >** take the defaults but do not provide a load balancer.
+6. Klik **Next: Networking >**, gunakan pengaturan default, tanpa load balancer.
 
-    | Setting | Value |
-    | --- | --- |
-    | Delete public IP and NIC when VM is deleted | **Checked** |
-    | Load balancing options | **None** |
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Delete public IP and NIC when VM is deleted | Dicentang |
+    | Load balancing options | `None` |
 
+7. Klik **Next: Management >**, atur:
 
-1. Click **Next : Management >** and specify the following settings (leave others with their default values):
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Patch orchestration options | `Azure orchestrated` |
 
-    | Setting | Value |
-    | --- | --- |
-    | Patch orchestration options | **Azure orchestrated** |  
+8. Klik **Next: Monitoring >**, atur:
 
-1. Click **Next : Monitoring >** and specify the following settings (leave others with their default values):
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Boot diagnostics | `Disable` |
 
-    | Setting | Value |
-    | --- | --- |
-    | Boot diagnostics | **Disable** |
+9. Klik **Next: Advanced >**, biarkan default, lalu klik **Review + Create**.
 
-1. Click **Next : Advanced >**, take the defaults, then click **Review + Create**.
+10. Setelah validasi selesai, klik **Create**.
 
-1. After the validation, click **Create**.
+    >**Catatan**: Saat VM dibuat, resource seperti NIC, disk, dan public IP dibuat secara terpisah.
 
-    >**Note:** Notice as the virtual machine deploys the NIC, disk, and public IP address (if configured) are independently created and managed resources.
-
-1. Wait for the deployment to complete, then select **Go to resource**.
-
-   >**Note:** Monitor the **Notification** messages.
+11. Tunggu hingga deployment selesai, lalu klik **Go to resource**.
 
 ## Task 2: Manage compute and storage scaling for virtual machines
 
-In this task, you will scale a virtual machine by adjusting its size to a different SKU. Azure provides flexibility in VM size selection so that you can adjust a VM for periods of time if it needs more (or less) compute and memory allocated. This concept is extended to disks, where you can modify the performance of the disk, or increase the allocated capacity.
+Dalam tugas ini, kamu akan melakukan scaling VM dengan mengganti SKU (ukuran). Kamu juga akan menambahkan disk baru dan meningkatkan performa disk.
 
-1. On the **vm1** virtual machine, in the **Availability + scale** blade, select **Size**.
+1. Buka VM `vm1`, lalu ke menu **Availability + scale**, pilih **Size**.
 
-1. Set the virtual machine size to **D2ds_v4** and click **Resize**. When prompted, confirm the change.
+2. Pilih ukuran **D2ds_v4**, lalu klik **Resize**. Konfirmasi perubahan.
 
-    >**Note**: Choose another size if **D2ds_v4** is not available. Resizing is also known as vertical scaling, up or down.
+   >**Catatan**: Jika D2ds_v4 tidak tersedia, pilih yang lain. Proses ini disebut vertical scaling.
 
-    ![Screenshot of the resize the virtual machine.](../media/az104-lab08-resize-vm.png)
+    ![Resize VM](../media/az104-lab08-resize-vm.png)
 
-1. In the **Settings** area, select **Disks**.
+3. Buka menu **Disks**.
 
-1. Under **Data disks** select **+ Create and attach a new disk**. Configure the settings (leave other settings at their default values).
+4. Di bagian **Data disks**, pilih **+ Create and attach a new disk**, isi:
 
-    | Setting | Value |
-    | --- | --- |
+    | Pengaturan | Nilai |
+    |------------|-------|
     | Disk name | `vm1-disk1` |
-    | Storage type | **Standard HDD** |
+    | Storage type | `Standard HDD` |
     | Size (GiB) | `32` |
 
-1. Click **Apply**.
+5. Klik **Apply**.
 
-1. After the disk has been created, click **Detach** (if necessary, scroll to the right to view the detach icon), and then click **Apply**.
+6. Setelah disk selesai dibuat, klik **Detach**, lalu klik **Apply**.
 
-    >**Note**: Detaching removes the disk from the VM but keeps it in storage for later use.
+   >**Catatan**: Disk tetap tersimpan meski tidak terpasang pada VM.
 
-1. Search for and select `Disks`. From the list of disks, select the **vm1-disk1** object.
+7. Cari dan pilih `Disks`, pilih **vm1-disk1**.
 
-    >**Note:** The **Overview** blade also provides performance and usage information for the disk.
+8. Pada **Settings**, pilih **Size + performance**.
 
-1. In the **Settings** blade, select **Size + performance**.
+9. Ganti ke **Standard SSD**, lalu klik **Save**.
 
-1. Set the storage type to **Standard SSD**, and then click **Save**.
+10. Kembali ke VM `vm1`, buka **Disks**, lalu pilih **Attach existing disks**.
 
-1. Navigate back to the **vm1** virtual machine and select **Disks**.
-
-1. In the **Data disk** section, select **Attach existing disks**.
-
-1. In the **Disk name** drop-down, select **VM1-DISK1**. 
-
-1. Verify the disk is now **Standard SSD**.
-
-1. Select **Apply** to save your changes. 
-
-    >**Note:** You have now created a virtual machine, scaled the SKU and the data disk size. In the next task we use Virtual Machine Scale Sets to automate the scaling process.
+11. Pilih `vm1-disk1`, klik **Apply**.
 
 ## Azure Virtual Machine Scale Sets Architecture Diagram
 
-![Diagram of the vmss architecture tasks.](../media/az104-lab08-vmss-architecture.png)
+![Diagram arsitektur VMSS](../media/az104-lab08-vmss-architecture.png)
 
 ## Task 3: Create and configure Azure Virtual Machine Scale Sets
 
-In this task, you will deploy an Azure virtual machine scale set across availability zones. VM Scale Sets reduce the administrative overhead of automation by enabling you to configure metrics or conditions that allow the scale set to horizontally scale, scale in or scale out.
+1. Buka **Virtual machine scale sets** > klik **+ Create**.
 
-1. In the Azure portal, search for and select `Virtual machine scale sets` and, on the **Virtual machine scale sets** blade, click **+ Create**.
+2. Di tab **Basics**, isi pengaturan berikut:
 
-1. On the **Basics** tab of the **Create a virtual machine scale set** blade, specify the following settings (leave others with their default values) and click **Next : Spot >**:
-
-    | Setting | Value |
-    | --- | --- |
-    | Subscription | the name of your Azure subscription  |
-    | Resource group | **rg8-p1**  |
-    | Virtual machine scale set name | `vmss1` |
-    | Region | **(US)Indonesia Central** |
-    | Availability zone | **Zones 1, 2, 3** |
-    | Orchestration mode | **Uniform** |
-    | Security type | **Standard** |
-    | Scaling options | **Review and take the defaults**. We will change this in the next task. |
-    | Image | **Windows Server 2019 Datacenter - x64 Gen2** |
-    | Run with Azure Spot discount | **Unchecked** |
-    | Size | **Standard D2s_v3** |
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Resource group | `rg8-p1` |
+    | Name | `vmss1` |
+    | Region | `Indonesia Central` |
+    | Availability zone | `Zones 1, 2, 3` |
+    | Orchestration mode | `Uniform` |
+    | Image | `Windows Server 2019 Datacenter - x64 Gen2` |
+    | Size | `Standard D2s_v3` |
     | Username | `localadmin` |
-    | Password | **Provide a secure password**  |
-    | Already have a Windows Server license? | **Unchecked** |
+    | Password | Buat password aman |
 
-    >**Note**: For the list of Azure regions which support deployment of Windows virtual machines to availability zones, refer to [What are Availability Zones in Azure?](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview)
+    ![Buat VMSS](../media/az104-lab08-create-vmss.png)
 
-    ![Screenshot of the create vmss page. ](../media/az104-lab08-create-vmss.png)
+3. Pada tab **Spot**, klik **Next: Disks >**, lanjutkan hingga **Networking**.
 
-1. On the **Spot** tab, accept the defaults and select **Next : Disks >**.
+4. Klik **Edit virtual network**, ubah:
 
-1. On the **Disks** tab, accept the default values and click **Next : Networking >**.
-
-1. On the **Networking** page, select **Edit virtual network** link. Make a few changes. When finished, select **OK**.
-
-    | Setting | Value |
-    | --- | --- |
+    | Pengaturan | Nilai |
+    |------------|-------|
     | Name | `vmss-vnet` |
-    | Address range | `10.82.0.0/20` (delete the existing address range) |
+    | Address range | `10.82.0.0/20` |
     | Subnet name | `subnet0` |
     | Subnet range | `10.82.0.0/24` |
 
-1. In the **Networking** tab, click the **Edit network interface** icon to the right of the network interface entry.
+5. Edit network interface, lalu buat Network Security Group baru dengan rule:
 
-1. For **NIC network security group** section, select **Advanced** and then click **Create new** under the **Configure network security group** drop-down list.
-
-1. On the **Create network security group** blade, specify the following settings (leave others with their default values):
-
-    | Setting | Value |
-    | --- | --- |
-    | Name | **vmss1-nsg** |
-
-1. Click **Add an inbound rule** and add an inbound security rule with the following settings (leave others with their default values):
-
-    | Setting | Value |
-    | --- | --- |
-    | Source | **Any** |
-    | Source port ranges | * |
-    | Destination | **Any** |
-    | Service | **HTTP** |
-    | Action | **Allow** |
-    | Priority | **1010** |
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Source | `Any` |
+    | Service | `HTTP` |
+    | Action | `Allow` |
+    | Priority | `1010` |
     | Name | `allow-http` |
 
-1. Click **Add** and, back on the **Create network security group** blade, click **OK**.
+6. Aktifkan **Public IP address**, klik **OK**.
 
-1. In the **Edit network interface** blade, in the **Public IP address** section, click **Enabled** and click **OK**.
+7. Di bagian **Load balancing**, pilih **Azure load balancer**, lalu buat dengan nama `vmss-lb`.
 
-1. In the **Networking** tab, under the **Load balancing** section, specify the following (leave others with their default values).
+8. Di tab **Management**, nonaktifkan **Boot diagnostics**.
 
-    | Setting | Value |
-    | --- | --- |
-    | Load balancing options | **Azure load balancer** |
-    | Select a load balancer | **Create a load balancer** |
-
-1. On the **Create a load balancer** page, specify the load balancer name and take the defaults. Click **Create** when you are done then **Next : Management >**.
-
-    | Setting | Value |
-    | --- | --- |
-    | Load balancer name | `vmss-lb` |
-
-    >**Note:** Pause for a minute and review what you done. At this point, you have configured the virtual machine scale set with disks and networking. In the network configuration you have created a network security group and allowed HTTP. You have also created a load balancer with a public IP address.
-
-1. On the **Management** tab, specify the following settings (leave others with their default values):
-
-    | Setting | Value |
-    | --- | --- |
-    | Boot diagnostics | **Disable** |
-
-1. Click **Next : Health >**.
-
-1. On the **Health** tab, review the default settings without making any changes and click **Next : Advanced >**.
-
-1. On the **Advanced** tab, click **Review + create**.
-
-1. On the **Review + create** tab, ensure that the validation passed and click **Create**.
-
-    >**Note**: Wait for the virtual machine scale set deployment to complete. This should take approximately 5 minutes. While you wait review the [documentation](https://learn.microsoft.com/azure/virtual-machine-scale-sets/overview).
+9. Klik **Review + create**, lalu **Create**.
 
 ## Task 4: Scale Azure Virtual Machine Scale Sets
 
-In this task, you scale the virtual machine scale set using a custom scale rule.
+### Scale out rule
 
-1. Select **Go to resource** or search for and select the **vmss1** scale set.
+1. Buka resource `vmss1` > pilih **Scaling** > ubah **Scale mode** ke **Scale based on metric**.
 
-1. Choose **Availability + Scale** from the left side menu, then choose **Scaling**.
+2. Tambahkan rule:
 
-    >**Did you know?** You can **Manual scale** or **Custom autoscale**. In scale sets with a small number of VM instances, increasing or decreasing the instance count (Manual scale) may be best. In scale sets with a large number of VM instances, scaling based on metrics (Custom autoscale) may be more appropriate.
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Metric name | `Percentage CPU` |
+    | Operator | `Greater than` |
+    | Threshold | `70` |
+    | Duration | `10` menit |
+    | Operation | `Increase percent by 50%` |
+    | Cool down | `5` menit |
 
-**Scale out rule**
+    ![Scaling Rule](../media/az104-lab08-scale-rule.png)
 
-1. Select **Custom autoscale**. Then change the **Scale mode** to **Scale based on metric**. And then select **Add a rule**.
+3. Klik **Save**.
 
-1. Let's create a rule that automatically increases the number of VM instances. This rule scales out when the average CPU load is greater than 70% over a 10-minute period. When the rule triggers, the number of VM instances is increased by 50%.
+### Scale in rule
 
-    | Setting | Value |
-    | --- | --- |
-    | Metric source | **Current resource (vmss1)** |
-    | Metric namespace | **Virtual Machine Host** |
-    | Metric name | **Percentage CPU** (review your other choices) |
-    | Operator | **Greater than** |
-    | Metric threshold to trigger scale action | **70** |
-    | Duration (minutes) | **10** |
-    | Time grain statistic | **Average** |
-    | Operation | **Increase percent by** (review other choices) |
-    | Cool down (minutes) | **5** |
-    | Percentage | **50** |
+Tambahkan rule:
 
-    ![Screenshot of the scaling add rule page.](../media/az104-lab08-scale-rule.png)
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Operator | `Less than` |
+    | Threshold | `30` |
+    | Operation | `decrease percentage by 50%` |
 
-1. Be sure to **Save** your changes.
+Klik **Save**.
 
-**Scale in rule**
+### Instance limits
 
-1. During evenings or weekends, demand may decrease so it is important to create a scale in rule.
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Minimum | `2` |
+    | Maximum | `10` |
+    | Default | `2` |
 
-1. Let's create a rule that decreases the number of VM instances in a scale set. The number of instances should decrease when the average CPU load drops below 30% over a 10-minute period. When the rule triggers, the number of VM instances is decreased by 20%.
+Klik **Save**. Lihat **Instances** untuk memantau VM.
 
-1. Select **Add a rule**, adjust the settings, then select **Add**.
+## Task 5: Create a virtual machine using Azure PowerShell (opsional)
 
-    | Setting | Value |
-    | --- | --- |
-    | Operator | **Less than** |
-    | Threshold | **30** |
-    | Operation | **decrease percentage by** (review your other choices) |
-    | Percentage | **50** |
+```powershell
+New-AzVm `
+-ResourceGroupName 'rg8-p1' `
+-Name 'myPSVM' `
+-Location 'Indonesia Central' `
+-Image 'Win2019Datacenter' `
+-Zone '1' `
+-Size 'Standard_D2s_v3' `
+-Credential (Get-Credential)
 
-1. Be sure to **Save** your changes.
+## Task 6: Create a virtual machine using the CLI (opsional 2)
 
-**Set the instance limits**
+1. Gunakan ikon di kanan atas untuk membuka sesi **Cloud Shell**. Alternatifnya, buka langsung `https://shell.azure.com`.
 
-1. When your autoscale rules are applied, instance limits make sure that you do not scale out beyond the maximum number of instances or scale in beyond the minimum number of instances.
+2. Pastikan kamu memilih **Bash**. Jika diminta, konfigurasikan penyimpanan shell.
 
-1. **Instance limits** are shown on the **Scaling** page after the rules.
-
-    | Setting | Value |
-    | --- | --- |
-    | Minimum | **2** |
-    | Maximum | **10** |
-    | Default | **2** |
-
-1. Be sure to **Save** your changes
-
-1. On the **vmss1** page, select **Instances**. This is where you would monitor the number of virtual machine instances.
-
-    >**Note:** If you are interested in using Azure PowerShell for virtual machine creation, try Task 5. If you are interested in using the CLI to create virtual machines, try Task 6.
-
-## Task 5: Create a virtual machine using Azure PowerShell (option 1)
-
-1. Use the icon (top right) to launch a **Cloud Shell** session. Alternately, navigate directly to `https://shell.azure.com`.
-
-1. Be sure to select **PowerShell**. If necessary, configure the shell storage.
-
-1. Run the following command to create a virtual machine. When prompted, provide a username and password for the VM. While you wait check out the [New-AzVM](https://learn.microsoft.com/powershell/module/az.compute/new-azvm?view=azps-11.1.0) command reference for all the parameters associated with creating a virtual machine.
-
-    ```powershell
-    New-AzVm `
-    -ResourceGroupName 'rg8-p1' `
-    -Name 'myPSVM' `
-    -Location 'Indonesia Central' `
-    -Image 'Win2019Datacenter' `
-    -Zone '1' `
-    -Size 'Standard_D2s_v3' `
-    -Credential (Get-Credential)
-    ```
-
-1. Once the command completes, use **Get-AzVM** to list the virtual machines in your resource group.
-
-    ```powershell
-    Get-AzVM `
-    -ResourceGroupName 'rg8-p1' `
-    -Status
-    ```
-
-1. Verify your new virtual machine is listed and the **Status** is **Running**.
-
-1. Use **Stop-AzVM** to deallocate your virtual machine. Type **Yes** to confirm.
-
-    ```powershell
-    Stop-AzVM `
-    -ResourceGroupName 'rg8-p1' `
-    -Name 'myPSVM' 
-    ```
-
-1. Use **Get-AzVM** with the **-Status** parameter to verify the machine is **deallocated**.
-
-    >**Did you know?** When you use Azure to stop your virtual machine, the status is *deallocated*. This means that any non-static public IPs are released, and you stop paying for the VM’s compute costs.
-
-## Task 6: Create a virtual machine using the CLI (option 2)
-
-1. Use the icon (top right) to launch a **Cloud Shell** session. Alternately, navigate directly to `https://shell.azure.com`.
-
-1. Be sure to select **Bash**. If necessary, configure the shell storage.
-
-1. Run the following command to create a virtual machine. When prompted, provide a username and password for the VM. While you wait check out the [az vm create](https://learn.microsoft.com/cli/azure/vm?view=azure-cli-latest#az-vm-create) command reference for all the parameters associated with creating a virtual machine.
+3. Jalankan perintah berikut untuk membuat VM. Saat diminta, berikan `username` dan `password`. Sambil menunggu proses selesai, kamu dapat melihat dokumentasi resmi perintah [az vm create](https://learn.microsoft.com/cli/azure/vm?view=azure-cli-latest#az-vm-create).
 
     ```sh
-    az vm create --name myCLIVM --resource-group rg8-p1 --image Ubuntu2204 --admin-username localadmin --generate-ssh-keys
+    az vm create \
+      --name myCLIVM \
+      --resource-group rg8-p1 \
+      --image Ubuntu2204 \
+      --admin-username localadmin \
+      --generate-ssh-keys
     ```
 
-1. Once the command completes, use **az vm show** to verify your machine was created.
+4. Setelah perintah selesai, gunakan perintah berikut untuk memverifikasi VM telah berhasil dibuat:
 
     ```sh
-    az vm show --name  myCLIVM --resource-group rg8-p1 --show-details
+    az vm show --name myCLIVM --resource-group rg8-p1 --show-details
     ```
 
-1. Verify the **powerState** is **VM Running**.
+5. Pastikan nilai `powerState` adalah **VM Running**.
 
-1. Use **az vm deallocate** to deallocate your virtual machine. Type **Yes** to confirm.
+6. Gunakan perintah berikut untuk menghentikan dan mendealokasi VM:
 
     ```sh
     az vm deallocate --resource-group rg8-p1 --name myCLIVM
     ```
 
-1. Use **az vm show** to ensure the **powerState** is **VM deallocated**.
+7. Jalankan lagi perintah `az vm show` untuk memastikan bahwa status `powerState` adalah **VM deallocated**.
 
-    >**Did you know?** When you use Azure to stop your virtual machine, the status is *deallocated*. This means that any non-static public IPs are released, and you stop paying for the VM’s compute costs.
+    >**Tahukah kamu?** Ketika kamu menghentikan VM menggunakan Azure CLI atau portal, status VM menjadi *deallocated*, artinya public IP non-statis akan dilepaskan dan biaya komputasi akan dihentikan.
+
+---
 
 ## Cleanup your resources
 
-If you are working with **your own subscription** take a minute to delete the lab resources. This will ensure resources are freed up and cost is minimized. The easiest way to delete the lab resources is to delete the lab resource group. 
+Jika kamu menggunakan **langganan pribadi**, sebaiknya kamu menghapus resource setelah selesai menggunakan lab ini agar tidak menimbulkan biaya tambahan.
 
-+ In the Azure portal, select the resource group, select **Delete the resource group**, **Enter resource group name**, and then click **Delete**.
-+ Using Azure PowerShell, `Remove-AzResourceGroup -Name resourceGroupName`.
-+ Using the CLI, `az group delete --name resourceGroupName`.
+**Cara membersihkan resource:**
+
+- Melalui portal Azure:
+  + Masuk ke resource group `rg8-p1`
+  + Klik **Delete resource group**
+  + Ketik ulang nama resource group, lalu klik **Delete**
+
+- Menggunakan Azure PowerShell:
+    ```powershell
+    Remove-AzResourceGroup -Name rg8-p1
+    ```
+
+- Menggunakan Azure CLI:
+    ```sh
+    az group delete --name rg8-p1
+    ```
+
+---
 
 ## Extend your learning with Copilot
-Copilot can assist you in learning how to use the Azure scripting tools. Copilot can also assist in areas not covered in the lab or where you need more information. Open an Edge browser and choose Copilot (top right) or navigate to *copilot.microsoft.com*. Take a few minutes to try these prompts.
 
-+ Provide the steps and the Azure CLI commands to create a Linux virtual machine. 
-+ Review the ways you can scale virtual machines and improve performance.
-+ Describe Azure storage lifecycle management policies and how they can optimize costs.
+Kamu dapat menggunakan **Microsoft Copilot** untuk memperdalam pembelajaran di luar lab ini. Beberapa contoh prompt yang bisa kamu coba:
+
++ Jelaskan langkah dan perintah Azure CLI untuk membuat Linux Virtual Machine.
++ Jelaskan berbagai metode scaling VM di Azure dan bagaimana meningkatkan performanya.
++ Apa itu storage lifecycle management di Azure dan bagaimana hal ini bisa mengoptimalkan biaya?
+
+Akses Copilot melalui browser Edge atau kunjungi [copilot.microsoft.com](https://copilot.microsoft.com).
+
+---
 
 ## Learn more with self-paced training
 
-+ [Create a Windows virtual machine in Azure](https://learn.microsoft.com/training/modules/create-windows-virtual-machine-in-azure/). Create a Windows virtual machine using the Azure portal. Connect to a running Windows virtual machine using Remote Desktop
-+ [Build a scalable application with Virtual Machine Scale Sets](https://learn.microsoft.com/training/modules/build-app-with-scale-sets/). Enable your application to automatically adjust to changes in load while minimizing costs with Virtual Machine Scale Sets.
-+ [Connect to virtual machines through the Azure portal by using Azure Bastion](https://learn.microsoft.com/en-us/training/modules/connect-vm-with-azure-bastion/). Deploy Azure Bastion to securely connect to Azure virtual machines directly within the Azure portal to effectively replace an existing jumpbox solution, monitor remote sessions by using diagnostic logs, and manage remote sessions by disconnecting a user session.
+Ingin belajar lebih lanjut? Coba beberapa modul pelatihan berikut:
+
+- [Create a Windows virtual machine in Azure](https://learn.microsoft.com/training/modules/create-windows-virtual-machine-in-azure/)  
+  Pelajari cara membuat Windows VM dan terhubung menggunakan Remote Desktop.
+
+- [Build a scalable application with Virtual Machine Scale Sets](https://learn.microsoft.com/training/modules/build-app-with-scale-sets/)  
+  Otomatiskan skala aplikasi berdasarkan beban kerja dan minimalkan biaya.
+
+- [Connect to virtual machines through the Azure portal by using Azure Bastion](https://learn.microsoft.com/en-us/training/modules/connect-vm-with-azure-bastion/)  
+  Gunakan Azure Bastion untuk koneksi VM yang aman langsung dari portal Azure.
+
+---
 
 ## Key takeaways
 
-Congratulations on completing the lab. Here are the main takeaways for this lab.
+Selamat! Kamu telah menyelesaikan lab ini. Berikut adalah poin-poin penting yang perlu diingat:
 
-+ Azure virtual machines are on-demand, scalable computing resources.
-+ Azure virtual machines provide both vertical and horizontal scaling options.
-+ Configuring Azure virtual machines includes choosing an operating system, size, storage and networking settings.
-+ Azure Virtual Machine Scale Sets let you create and manage a group of load balanced VMs.
-+ The virtual machines in a Virtual Machine Scale Set are created from the same image and configuration.
-+ In a Virtual Machine Scale Set the number of VM instances can automatically increase or decrease in response to demand or a defined schedule.
++ Azure Virtual Machine adalah sumber daya komputasi yang fleksibel dan sesuai permintaan.
++ VM mendukung dua jenis scaling: **vertical scaling** (mengubah ukuran VM) dan **horizontal scaling** (menambah atau mengurangi jumlah VM).
++ Virtual Machine Scale Set memudahkan pengelolaan dan autoscaling banyak VM berdasarkan beban kerja.
++ VM pada Scale Set dibuat dari image dan konfigurasi yang sama, mendukung skalabilitas dan konsistensi tinggi.
++ Kamu dapat menggunakan portal Azure, PowerShell, maupun CLI untuk membuat dan mengelola VM.
++ Status *deallocated* menghentikan biaya komputasi dan melepaskan public IP yang tidak statis.
+
+---
+

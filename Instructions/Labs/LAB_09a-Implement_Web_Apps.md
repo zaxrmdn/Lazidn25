@@ -6,22 +6,21 @@ lab:
 
 # Lab 09a - Implement Web Apps
 
-
 ## Lab introduction
 
-In this lab, you learn about Azure web apps. You learn to configure a web app to display a Hello World application in an external GitHub repository. You learn to create a staging slot and swap with the production slot. You also learn about autoscaling to accommodate demand changes.
+Dalam lab ini, Anda akan mempelajari tentang Azure Web Apps. Anda akan mengonfigurasi Web App untuk menampilkan aplikasi Hello World dari repositori GitHub eksternal. Anda juga akan membuat *staging slot* dan melakukan *swap* dengan *production slot*. Selain itu, Anda akan mempelajari tentang *autoscaling* untuk mengakomodasi perubahan permintaan.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using Indonesia Central.
+Lab ini memerlukan langganan Azure. Jenis langganan Anda dapat memengaruhi ketersediaan fitur dalam lab ini. Anda dapat mengubah region, tetapi langkah-langkah ditulis menggunakan **Indonesia Central**.
 
-## Estimated timing: 20 minutes
+## Estimasi waktu: 20 menit
 
 ## Lab scenario
 
-Your organization is interested in Azure Web apps for hosting your company websites. The websites are currently hosted in an on-premises data center. The websites are running on Windows servers using the PHP runtime stack. The hardware is nearing end-of-life and will soon need to be replaced. Your organization wants to avoid new hardware costs by using Azure to host the websites. 
+Organisasi Anda tertarik dengan Azure Web Apps untuk menghosting situs web perusahaan. Saat ini, situs web dihosting di *on-premises data center* menggunakan Windows Server dan *runtime stack* PHP. Perangkat kerasnya mendekati akhir masa pakai dan perlu diganti. Organisasi Anda ingin menghindari biaya perangkat keras baru dengan memanfaatkan Azure sebagai tempat hosting situs web.
 
 ## Interactive lab simulations
 
->**Note**: The lab simulations that were previously provided have been retired.
+>**Catatan**: Simulasi lab sebelumnya sudah tidak lagi disediakan.
 
 ## Architecture diagram
 
@@ -29,175 +28,135 @@ Your organization is interested in Azure Web apps for hosting your company websi
 
 ## Job skills
 
-+ Task 1: Create and configure an Azure web app.
-+ Task 2: Create and configure a deployment slot.
-+ Task 3: Configure web app deployment settings.
-+ Task 4: Swap deployment slots.
-+ Task 5: Configure and test autoscaling of the Azure web app.
++ Task 1: Membuat dan mengonfigurasi Azure Web App
++ Task 2: Membuat dan mengonfigurasi *deployment slot*
++ Task 3: Mengonfigurasi pengaturan *deployment* untuk Web App
++ Task 4: Melakukan *swap* antara deployment slots
++ Task 5: Mengonfigurasi dan menguji *autoscaling* pada Azure Web App
 
 ## Task 1: Create and configure an Azure web app
 
-In this task, you create an Azure web app. Azure App Services is a Platform As a Service (PAAS) solution for web, mobile, and other web-based applications. Azure web apps is part Azure App Services hosting most runtime environments, such as PHP, Java, and .NET. The app service plan that you select determines the web app compute, storage, and features. 
+1. Masuk ke **Azure portal** - https://portal.azure.com.
+2. Cari dan pilih **App Services**.
+3. Klik **+ Create**, lalu pilih **Web App**.
+4. Pada tab **Basics** di blade **Create Web App**, isikan pengaturan berikut (biarkan nilai lainnya default):
 
-1. Sign in to the **Azure portal** - `https://portal.azure.com`.
-
-1. Search for and select `App services`.
-
-1. Select **+ Create**, from drop-down menu, **Web App**. Notice the other choices. 
-
-1. On the **Basics** tab of the **Create Web App** blade, specify the following settings (leave others with their default values):
-
-    | Setting | Value |
-    | --- | ---|
-    | Subscription | your Azure subscription |
-    | Resource group | `rg9-p1` (If necessary, select **Create new**) |
-    | Web app name | any globally unique name |
+    | Pengaturan | Nilai |
+    |------------|-------|
+    | Subscription | langganan Azure Anda |
+    | Resource group | `rg9-p1` (jika perlu, klik **Create new**) |
+    | Web app name | nama unik global |
     | Publish | **Code** |
     | Runtime stack | **PHP 8.2** |
     | Operating system | **Linux** |
     | Region | **Indonesia Central** |
     | Pricing plans | **Premium V3 P1V3** |
-    | Zone redundancy | accept the defaults |
+    | Zone redundancy | gunakan default |
 
- 1. Click **Review + create**, and then **Create**.
+5. Klik **Review + create**, lalu **Create**.
 
-    >**Note**: Wait until the Web App is created before you proceed to the next task. This should take about a minute.
-    
-    >**Note**: If the deployment fails, change to another region and try again. This is due to quotas in different regions.  
+   >**Catatan**: Tunggu hingga Web App selesai dibuat sebelum melanjutkan. Biasanya memerlukan waktu sekitar satu menit.
 
-1. After the deployment, select **Go to resource**.
+   >**Catatan**: Jika gagal, coba gunakan region lain karena perbedaan kuota di tiap region.
+
+6. Setelah deployment selesai, klik **Go to resource**.
 
 ## Task 2: Create and configure a deployment slot
 
-In this task, you will create a staging deployment slot. Deployment slots enable you to perform testing prior to making your app available to the public (or your end users). After you have performed testing, you can swap the slot from development or staging to production. Many organizations use slots to perform pre-production testing. Additionally, many organizations run multiple slots for every application (for example, development, QA, test, and production).
+1. Pada blade Web App yang baru saja dibuat, klik link **Default domain** untuk membuka laman default di tab baru.
+2. Tutup tab tersebut, kembali ke portal, buka bagian **Deployment** di blade Web App, klik **Deployment slots**.
+3. Klik **Add slot**, isi pengaturan berikut:
 
-1. On the blade of the newly deployed Web App, click the **Default domain** link to display the default web page in a new browser tab.
-
-1. Close the new browser tab and, back in the Azure portal, in the **Deployment** section of the Web App blade, click **Deployment slots**.
-
-1. Click **Add slot**, and add a new slot with the following settings:
-
-    | Setting | Value |
-    | --- | ---|
+    | Pengaturan | Nilai |
+    |------------|-------|
     | Name | `staging` |
-    | Clone settings from | **Do not clone settings**|
+    | Clone settings from | **Do not clone settings** |
 
-1. Select **Add** to create the slot.
+4. Klik **Add** untuk membuat slot baru.
+5. Refresh halaman untuk melihat slot Production dan Staging.
+6. Klik entri slot staging yang baru dibuat.
 
-1. Refresh the page to view the Production and Staging slots. 
+   >**Catatan**: Ini akan membuka blade properti dari staging slot.
 
-1. Select the entry representing the newly created staging slot.
-
-    >**Note**: This will open the blade displaying the properties of the staging slot.
-
-1. Review the staging slot blade and note that its URL differs from the one assigned to the production slot.
+7. Amati URL dari staging slot yang berbeda dengan URL production slot.
 
 ## Task 3: Configure Web App deployment settings
 
-In this task, you will configure Web App deployment settings. Deployment settings allow for continuous deployment. This ensures that the app service has the latest version of the application.
+1. Pada staging slot, buka **Deployment Center** lalu pilih **Settings**.
 
-1. In the staging slot, select **Deployment Center** and then select **Settings**.
+   >**Catatan**: Pastikan Anda sedang berada di blade staging slot, bukan production slot.
 
-    >**Note:** Make sure you are on the staging slot blade (instead than the production slot).
-    
-1. In the **Source** drop-down list, select **External Git**. Notice the other choices. 
+2. Pada dropdown **Source**, pilih **External Git**.
+3. Di kolom repository, masukkan:  
+   `https://github.com/Azure-Samples/php-docs-hello-world`
+4. Di kolom branch, masukkan:  
+   `master`
+5. Klik **Save**.
+6. Buka **Overview** lalu klik link **Default domain**, buka di tab baru.
+7. Verifikasi bahwa halaman menampilkan teks **Hello World**.
 
-1. In the repository field, enter `https://github.com/Azure-Samples/php-docs-hello-world`
-
-1. In the branch field, enter `master`.
-
-1. Select **Save**.
-
-1. From the staging slot, select **Overview**.
-
-1. Select the **Default domain** link, and open the URL in a new tab. 
-
-1. Verify that the staging slot displays **Hello World**. 
-
->**Note:** The deployment may take a minute. Be sure to **Refresh** the application page.
+   >**Catatan**: Deployment mungkin membutuhkan waktu satu menit. Lakukan **Refresh** jika perlu.
 
 ## Task 4: Swap deployment slots
 
-In this task, you will swap the staging slot with the production slot. Swapping a slot allows you to use the code that you have tested in your staging slot, and move it to production. The Azure portal will also prompt you if you need to move other application settings that you have customized for the slot. Swapping slots is a common task for application teams and application support teams, especially those deploying routine app updates and bug fixes.
+1. Kembali ke blade **Deployment slots**, lalu klik **Swap**.
+2. Tinjau pengaturan default dan klik **Start Swap**. Tunggu hingga muncul notifikasi bahwa swap selesai.
+3. Kembali ke halaman utama portal. Anda akan memiliki web app produksi dan staging slot.
+4. Cari App Services dan pilih App Service Web App Anda.
+5. Pada blade **Overview**, klik link **Default domain**.
+6. Verifikasi halaman produksi sekarang menampilkan **Hello World!**.
 
-1. Navigate back to the **Deployment slots** blade, and then select **Swap**.
-
-1. Review the default settings and click **Start Swap**. Wait for the notification that the swap has finished.
-
-1. Return to the portal home page. You should have both a the production web app and the staging slot.
-
-1. Search for `App Services` and select your App Service web app. This returns you to the Production Deployment slot.
-
-1. Select the App Service web app and on the **Overview** blade of the Web App select the **Default domain** link to display the website home page.
-
-1. Verify the production web page now displays the **Hello World!** page.
-
-    >**Note:** Copy the Default domain **URL** you will need it for load testing in the next task. 
+   >**Catatan**: Salin **URL Default domain** untuk digunakan dalam pengujian beban (*load test*) pada task berikutnya.
 
 ## Task 5: Configure and test autoscaling of the Azure Web App
 
-In this task, you will configure autoscaling of Azure Web App. Autoscaling enables you to maintain optimal performance for your web app when traffic to the web app increases. To determine when the app should scale you can monitor metrics like CPU usage, memory, or bandwidth.
+1. Pada bagian **Settings**, pilih **Scale out (App Service plan)**.
 
-1. In the **Settings** section, select **Scale out (App Service plan)**.
+   >**Catatan**: Pastikan Anda sedang bekerja di production slot.
 
-    >**Note:** Ensure you are working on the production slot not the staging slot.  
-
-1. From the **Scaling** section, select **Automatic**. Notice the **Rules Based** option. Rules based scaling can be configured for different app metrics. 
-
-1. In the **Maximum burst** field, select **2**.
+2. Pada bagian **Scaling**, pilih **Automatic**.
+3. Pada kolom **Maximum burst**, masukkan nilai: **2**.
 
     ![Screenshot of the autoscale page.](../media/az104-lab09a-autoscale.png)
 
-1. Select **Save**.
+4. Klik **Save**.
+5. Klik **Diagnose and solve problems** di panel kiri.
+6. Pada bagian **Load Test your App**, klik **Create Load Test**.
 
-1. Select **Diagnose and solve problems** (left pane).
+    + Klik **+ Create** dan beri nama unik untuk load test.
+    + Klik **Review + create**, lalu **Create**.
 
-1. In the **Load Test your App** box, select **Create Load Test**.
+7. Setelah selesai dibuat, klik **Go to resource**.
+8. Dari tab **Overview** | **Create by adding HTTP requests**, klik **Create**.
+9. Pada tab **Test plan**, klik **Add request**. Di kolom **URL**, tempelkan **Default domain URL** Anda (pastikan format **https://**). Klik **Add**.
+10. Klik **Review + create** lalu **Create**.
 
-    + Select **+ Create** and give your load test a **name**.  The name must be unique.
-    + Select **Review + create** and then **Create**.
+    >**Catatan**: Dibutuhkan beberapa menit untuk membuat tes. Lihat notifikasi.
 
-1. Wait for the load test to create, and then select **Go to resource**.
-
-1. From the **Overview** | **Create by adding HTTP requests**, select **Create**.
-
-1. On the **Test plan** tab, click **Add request**. In the **URL field**, paste in your **Default domain** URL. Ensure this is properly formatted and begins with **https://**. Select **Add** to save your changes. 
-
-1. Select **Review + create** and **Create**.
-
-    >**Note:** It may take a couple of minutes to create the test. Watch the notifications.
-
-1. Navigate to the test (it is listed on the home page). 
-
-1. Refresh and review the live metrics including **Virtual users**, **Response time**, and **Requests/sec**.
-
-1. Select **Stop** to complete the test run. You don't need to wait for the test to complete. 
+11. Navigasi ke daftar tes (ada di halaman utama).
+12. Klik **Refresh** dan tinjau metrik langsung seperti **Virtual users**, **Response time**, dan **Requests/sec**.
+13. Klik **Stop** untuk menyelesaikan uji beban. Tidak perlu menunggu hingga selesai sepenuhnya.
 
 ## Cleanup your resources
 
-If you are working with **your own subscription** take a minute to delete the lab resources. This will ensure resources are freed up and cost is minimized. The easiest way to delete the lab resources is to delete the lab resource group. 
+Jika Anda menggunakan **langganan pribadi**, hapus resource lab untuk menghindari biaya tambahan. Cara termudah adalah menghapus resource group:
 
-+ In the Azure portal, select the resource group, select **Delete the resource group**, **Enter resource group name**, and then click **Delete**.
-+ Using Azure PowerShell, `Remove-AzResourceGroup -Name resourceGroupName`.
-+ Using the CLI, `az group delete --name resourceGroupName`.
++ Di Azure portal: pilih resource group > klik **Delete the resource group** > ketik nama resource group > klik **Delete**.
++ Azure PowerShell:  
+  `Remove-AzResourceGroup -Name resourceGroupName`
++ Azure CLI:  
+  `az group delete --name resourceGroupName`
 
 ## Extend your learning with Copilot
-Copilot can assist you in learning how to use the Azure scripting tools. Copilot can also assist in areas not covered in the lab or where you need more information. Open an Edge browser and choose Copilot (top right) or navigate to *copilot.microsoft.com*. Take a few minutes to try these prompts.
 
-+ Summarize the steps to create and configure an Azure web app.
-+ What are ways I can scale an Azure Web App?
+Copilot dapat membantu Anda mempelajari penggunaan alat scripting Azure. Copilot juga dapat membantu di area yang tidak dibahas di lab. Coba buka Edge browser, pilih Copilot (pojok kanan atas) atau akses *copilot.microsoft.com* dan coba beberapa perintah berikut:
+
++ Ringkas langkah-langkah untuk membuat dan mengonfigurasi Azure Web App.
++ Apa saja cara saya dapat menskalakan Azure Web App?
 
 ## Learn more with self-paced training
 
-+ [Stage a web app deployment for testing and rollback by using App Service deployment slots](https://learn.microsoft.com/training/modules/stage-deploy-app-service-deployment-slots/). Use deployment slots to streamline deployment and roll back a web app in Azure App Service.
-+ [Scale an App Service web app to efficiently meet demand with App Service scale up and scale out](https://learn.microsoft.com/training/modules/app-service-scale-up-scale-out/). Respond to periods of increased activity by incrementally increasing the resources available and then, to reduce costs, decreasing these resources when activity drops.
++ [Stage a web app deployment for testing and rollback by using App Service deployment slots](https://learn.microsoft.com/training/modules/stage-deploy-app-service-deployment-slots/)
++ [Scale an App Service web app to efficiently meet demand with App Service scale up and scale out](https://learn.microsoft.com/training/modules/app-service-scale-up-scale-out/)
 
 ## Key takeaways
-
-Congratulations on completing the lab. Here are the main takeaways for this lab. 
-
-+ Azure App Services lets you quickly build, deploy, and scale web apps.
-+ App Service includes support for many developer environments including ASP.NET, Java, PHP, and Python.
-+ Deployment slots allow you to create separate environments for deploying and testing your web app.
-+ You can manually or automatically scale a web app to handle additional demand.
-+ A wide variety of diagnostics and testing tools are available. 

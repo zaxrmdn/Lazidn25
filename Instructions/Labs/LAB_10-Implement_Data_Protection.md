@@ -8,27 +8,27 @@ lab:
 
 ## Lab introduction    
 
-In this lab, you learn about backup and recovery of Azure virtual machines. You learn to create a Recovery Service vault and a backup policy for Azure virtual machines. You learn about disaster recovery with Azure Site Recovery. 
+Dalam lab ini, Anda akan mempelajari tentang pencadangan dan pemulihan mesin virtual Azure. Anda akan belajar membuat Recovery Service vault dan kebijakan pencadangan untuk mesin virtual Azure. Anda juga akan mempelajari tentang pemulihan bencana dengan Azure Site Recovery.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the regions, but the steps are written using **Indonesia Central** and **Southeast Asia**.
+Lab ini memerlukan langganan Azure. Jenis langganan Anda dapat memengaruhi ketersediaan fitur dalam lab ini. Anda dapat mengubah wilayah, tetapi langkah-langkah ditulis menggunakan **Indonesia Central** dan **Southeast Asia**.
 
 ## Estimated timing: 50 minutes
 
 ## Lab scenario
 
-Your organization is evaluating how to backup and restore Azure virtual machines from accidental or malicious data loss. Additionally, the organization wants to explore using Azure Site Recovery for disaster recovery scenarios. 
+Organisasi Anda sedang mengevaluasi cara mencadangkan dan memulihkan mesin virtual Azure dari kehilangan data yang tidak disengaja atau bersifat jahat. Selain itu, organisasi ingin mengeksplorasi penggunaan Azure Site Recovery untuk skenario pemulihan bencana.
 
 ## Interactive lab simulations
 
->**Note**: The lab simulations that were previously provided have been retired.
+>**Catatan**: Simulasi lab yang sebelumnya disediakan telah dihentikan.
 
 ## Job skills
 
-+ Task 1: Use a template to provision an infrastructure.
-+ Task 2: Create and configure a Recovery Services vault.
-+ Task 3: Configure Azure virtual machine-level backup.
-+ Task 4: Monitor Azure Backup.
-+ Task 5: Enable virtual machine replication. 
++ Task 1: Gunakan template untuk menyediakan infrastruktur.
++ Task 2: Buat dan konfigurasikan Recovery Services vault.
++ Task 3: Konfigurasikan backup tingkat mesin virtual Azure.
++ Task 4: Pantau Azure Backup.
++ Task 5: Aktifkan replikasi mesin virtual.
 
 ## Estimated timing: 40 minutes
 
@@ -38,258 +38,221 @@ Your organization is evaluating how to backup and restore Azure virtual machines
 
 ## Task 1: Use a template to provision an infrastructure
 
-In this task, you will use a template to deploy a virtual machine. The virtual machine will be used to test different backup scenarios.
+Pada tugas ini, Anda akan menggunakan template untuk menyebarkan sebuah mesin virtual. Mesin virtual ini akan digunakan untuk menguji berbagai skenario backup.
 
-1. Download the **\\Allfiles\\Lab10\\** lab files.
+1. Unduh file lab dari **\\Allfiles\\Lab10\\**.
 
-1. Sign in to the **Azure portal** - `https://portal.azure.com`.
+1. Masuk ke **Azure portal** - https://portal.azure.com.
 
-1. Search for and select `Deploy a custom template`.
+1. Cari dan pilih `Deploy a custom template`.
 
-1. On the custom deployment page, select **Build you own template in the editor**.
+1. Pada halaman custom deployment, pilih **Build your own template in the editor**.
 
-1. On the edit template page, select **Load file**.
+1. Pada halaman edit template, pilih **Load file**.
 
-1. Locate and select the **\\Allfiles\\Lab10\\az104-10-vms-edge-template.json** file and select **Open**.
+1. Temukan dan pilih file **\\Allfiles\\Lab10\\az104-10-vms-edge-template.json** lalu klik **Open**.
 
-   >**Note:** Take a moment to review the template. We are deploying a virtual network and virtual machine so we can demonstrate backup and recovery. 
+   >**Catatan:** Luangkan waktu untuk meninjau template. Kita akan menyebarkan virtual network dan mesin virtual untuk mendemonstrasikan backup dan pemulihan.
 
-1. **Save** your changes.
+1. Klik **Save**.
 
-1. Select **Edit parameters** and then **Load file**.
+1. Pilih **Edit parameters** lalu **Load file**.
 
-1. Load and select the **\\Allfiles\\Lab10\\az104-10-vms-edge-parameters.json** file.
+1. Muat dan pilih file **\\Allfiles\\Lab10\\az104-10-vms-edge-parameters.json**.
 
-1. **Save** your changes.
+1. Klik **Save**.
 
-1. Use the following information to complete the custom deployment fields, leaving all other fields with their default values:
+1. Gunakan informasi berikut untuk mengisi kolom deployment:
 
     | Setting       | Value         | 
     | ---           | ---           |
-    | Subscription  | Your Azure subscription |
-    | Resource group| `rg-region-1-p1` (If necessary, select **Create new**)
+    | Subscription  | Langganan Azure Anda |
+    | Resource group| `rg-region-1-p1` (Jika perlu, pilih **Create new**) |
     | Region        | **Indonesia Central**   |
     | Username      | **localadmin**   |
-    | Password      | Provide a complex password |
+    | Password      | Gunakan sandi kompleks |
 
-1. Select **Review + Create**, then select **Create**.
+1. Pilih **Review + Create**, lalu klik **Create**.
 
-    >**Note:** Wait for the template to deploy, then select **Go to resource**. You should have one virtual machine in one virtual network. 
+    >**Catatan:** Tunggu hingga template selesai disebarkan, lalu pilih **Go to resource**. Anda akan memiliki satu mesin virtual di satu virtual network.
 
 ## Task 2: Create and configure a Recovery Services vault
 
-In this task, you will create a Recovery Services vault. A Recovery Services vault provides storage for the virtual machine data. 
+Pada tugas ini, Anda akan membuat Recovery Services vault. Vault ini akan menjadi tempat penyimpanan data dari mesin virtual.
 
-1. In the Azure portal, search for and select `Recovery Services vaults` and, on the **Recovery Services vaults** blade, click **+ Create**.
+1. Di Azure portal, cari dan pilih `Recovery Services vaults`, lalu klik **+ Create**.
 
-1. On the **Create Recovery Services vault** blade, specify the following settings:
+1. Isi pengaturan berikut:
 
     | Settings | Value |
     | --- | --- |
-    | Subscription | the name of your Azure subscription |
-    | Resource group | `rg-region-1-p1`  |
+    | Subscription | Nama langganan Azure Anda |
+    | Resource group | `rg-region-1-p1` |
     | Vault Name | `az104-rsv-region1` |
     | Region | **Indonesia Central** |
 
-    >**Note**: Make sure that you specify the same region into which you deployed virtual machines in the previous task.
+    >**Catatan**: Pastikan wilayah sama dengan tempat Anda menyebarkan mesin virtual pada tugas sebelumnya.
 
-    ![Screenshot of the recovery services vault.](../media/az104-lab10-create-rsv.png)
+1. Klik **Review + Create**, pastikan validasi berhasil, lalu klik **Create**.
 
-1. Click **Review + Create**, ensure that the validation passes and then click **Create**.
+1. Setelah penyebaran selesai, klik **Go to Resource**.
 
-    >**Note**: Wait for the deployment to complete. The deployment should take a couple of minutes. 
+1. Di bagian **Settings**, klik **Properties**.
 
-1. When the deployment is completed, click **Go to Resource**.
+1. Klik tautan **Update** di bawah label **Backup Configuration**.
 
-1. In the **Settings** section, click **Properties**.
+1. Tinjau opsi **Storage replication type**. Biarkan pada pengaturan default yaitu **Geo-redundant** lalu tutup halaman tersebut.
 
-1. Select the **Update** link under **Backup Configuration** label.
+1. Klik tautan **Update** di bawah **Security Settings > Soft Delete and security settings**.
 
-1. On the **Backup Configuration** blade, review the choices for **Storage replication type**. Leave the default setting of **Geo-redundant** in place and close the blade.
+1. Perhatikan bahwa **Soft Delete** dalam keadaan **Enabled** dengan masa retensi **14 hari**.
 
-    >**Note**: This setting can be configured only if there are no existing backup items.
-    
-    >**Did you know?** The [Cross Region Restore](https://learn.microsoft.com/azure/backup/backup-create-recovery-services-vault#set-cross-region-restore) option allows you to restore data in a secondary, Azure paired region. 
-
-1. Select the **Update** link under **Security Settings > Soft Delete and security settings** label.
-
-1. On the **Security Settings** blade, note that **Soft Delete (For workload running in Azure)** is **Enabled**. Notice the **soft delete retention period** is **14** days. 
-
->**Did you know?** Azure has two types of vaults: Recovery Services vaults and Backup vaults. The main difference is the datasources that can be backed up. Learn more about [the differences](https://learn.microsoft.com/answers/questions/405915/what-is-difference-between-recovery-services-vault).
+>**Tahukah Anda?** Azure memiliki dua jenis vault: Recovery Services vault dan Backup vault. Perbedaannya ada pada jenis sumber data yang dapat dicadangkan. [Pelajari lebih lanjut.](https://learn.microsoft.com/answers/questions/405915/what-is-difference-between-recovery-services-vault)
 
 ## Task 3: Configure Azure virtual machine-level backup
 
-In this task, you will implement Azure virtual-machine level backup. As part of a VM backup, you will need to define the backup and retention policy that applies to the backup. Different VMs can have different backup and retention policies assigned to them.
+Pada tugas ini, Anda akan mengimplementasikan backup tingkat mesin virtual Azure. Anda juga akan membuat kebijakan backup dan retensi.
 
-   >**Note**: Before you start this task, make sure that the deployment you initiated in the first task of this lab has successfully completed.
+1. Pada blade Recovery Services vault, klik **Overview**, lalu klik **+ Backup**.
 
-1. On the Recovery Services vault blade, click **Overview**, then click **+ Backup**.
+1. Atur konfigurasi berikut:
 
-1. On the **Backup Goal** blade, specify the following settings:
-
-    | Settings | Value |
+    | Setting | Value |
     | --- | --- |
-    | Where is your workload running? | **Azure** (notice your other options) |
-    | What do you want to backup? | **Virtual machine** (notice your other options |
+    | Where is your workload running? | **Azure** |
+    | What do you want to backup? | **Virtual machine** |
 
-1. Select **Backup**.
+1. Klik **Backup**.
 
-1. Notice there a two **Policy sub types**: **Enhanced** and **Standard**. Review the choices and select **Standard**. 
+1. Pilih subtipe kebijakan **Standard**.
 
-1. In **Backup policy**, select **Create a new policy**.
-
-1. Define a new backup policy with the following settings (leave others with their default values):
+1. Pada **Backup policy**, klik **Create a new policy** lalu isi:
 
     | Setting | Value |
     | ---- | ---- |
     | Policy name | `az104-backup` |
     | Frequency | **Daily** |
     | Time | **12:00 AM** |
-    | Timezone | the name of your local time zone |
-    | Retain instant recovery snapshot(s) for | **2** Days(s) |
+    | Timezone | Zona waktu lokal Anda |
+    | Retain instant recovery snapshot(s) for | **2 Days** |
 
-    ![Screenshot of the backup policy page.](../media/az104-lab10-backup-policy.png)
+1. Klik **OK** untuk membuat kebijakan. Pada bagian **Virtual Machines**, klik **Add**.
 
-1. Click **OK** to create the policy and then, in the **Virtual Machines** section, select **Add** (scroll down).
+1. Pilih **az-104-10-vm0**, klik **OK**, lalu klik **Enable backup**.
 
-1. On the **Select virtual machines** blade, select **az-104-10-vm0**, click **OK**, and then back on the **Backup** blade, click **Enable backup**.
+1. Setelah selesai, pilih **Go to resource**.
 
-    >**Note**: Wait for the backup to be enabled. This should take approximately 2 minutes.
+1. Pada bagian **Protected items**, klik **Backup items**, lalu klik entri **Azure virtual machine**.
 
-1. After the deployment, select **Go to resource**.
-   
-1. In the **Protected items** section, click **Backup items**, and then click the **Azure virtual machine** entry.
+1. Klik **View details** untuk **az104-10-vm0** dan tinjau nilai dari **Backup Pre-Check** dan **Last Backup Status**.
 
-1. Select the **View details** link for **az104-10-vm0**, and review the values of the **Backup Pre-Check** and **Last Backup Status** entries.
-
-    >**Note:** Notice the backup is pending.
-    
-1. Select **Backup now**, accept the default value in the **Retain Backup Till** drop-down list, and click **OK**.
-
-    >**Note**: Do not wait for the backup to complete but instead proceed to the next task.
+1. Klik **Backup now**, biarkan nilai default untuk **Retain Backup Till**, lalu klik **OK**.
 
 ## Task 4: Monitor Azure Backup
 
-In this task, you will deploy an Azure storage account. Then you will configure the vault to send the logs and metrics to the storage account. This repository can then be used with Log Analytics or other third-party monitoring solutions.
+Pada tugas ini, Anda akan menyebarkan akun penyimpanan Azure dan mengkonfigurasikan vault untuk mengirim log dan metrik ke akun tersebut.
 
-1. From the Azure portal, search for and select `Storage accounts`.
+1. Dari portal Azure, cari dan pilih `Storage accounts`.
 
-1. On the Storage accounts page, select **Create**.
+1. Klik **Create**.
 
-1. Use the following information to define the storage account, then and select **Review + create**.
+1. Isi dengan data berikut:
 
-    | Settings | Value |
+    | Setting | Value |
     | --- | --- | 
-    | Subscription          | *Your subscription*    |
-    | Resource group        | **rg-region-1-p1**        |
-    | Storage account name  | Provide a globally unique name   |
+    | Subscription          | Langganan Anda    |
+    | Resource group        | `rg-region-1-p1`        |
+    | Storage account name  | Nama unik global   |
     | Region                | **Indonesia Central**   |
 
-1. Select **Create**.
+1. Klik **Create** dan tunggu penyebaran selesai.
 
-    >**Note**: Wait for the deployment to complete. It should take about a minute.
+1. Kembali ke Recovery Services vault Anda.
 
-1. Search and select your Recovery Services vault.
+1. Di blade **Monitoring**, pilih **Diagnostic Settings** lalu klik **Add diagnostic setting**.
 
-1. In the **Monitoring** blade, select **Diagnostic Settings** and then select **Add diagnostic setting**.
+1. Beri nama: `Logs and Metrics to storage`.
 
-1. Name the setting `Logs and Metrics to storage`.
+1. Centang kategori berikut:
 
-1. Place a checkmark next to the following log and metric categories:
+    - Azure Backup Reporting Data
+    - Addon Azure Backup Job Data
+    - Addon Azure Backup Alert Data
+    - Azure Site Recovery Jobs
+    - Azure Site Recovery Events
 
-    - **Azure Backup Reporting Data**
-    - **Addon Azure Backup Job Data**
-    - **Addon Azure Backup Alert Data**
-    - **Azure Site Recovery Jobs**
-    - **Azure Site Recovery Events**
+1. Di bagian tujuan, centang **Archive to a storage account**.
 
-1. In the Destination details, place a checkmark next to **Archive to a storage account**.
+1. Pilih akun penyimpanan yang telah Anda buat, lalu klik **Save**.
 
-1. In the Storage account drop-down field, select the storage account that you deployed earlier in this task.
+1. Kembali ke Recovery Services vault, pada blade **Monitoring**, pilih **Backup jobs**.
 
-1. Select **Save**.
-
-1. Return to your Recovery Services vault, in the **Monitoring** blade select **Backup jobs**.
-
-1. Locate the backup operation for the **az104-10-vm0** virtual machine. 
-
-1. **View details** (scroll to the right for the link) of the backup job.
+1. Cari dan **View details** dari operasi backup untuk mesin virtual **az104-10-vm0**.
 
 ## Task 5: Enable virtual machine replication
 
-1. In the Azure portal, search for and select `Recovery Services vaults` and, on the **Recovery Services vaults** blade, click **+ Create**.
+1. Cari dan pilih `Recovery Services vaults`, lalu klik **+ Create**.
 
-1. On the **Create Recovery Services vault** blade, specify the following settings:
+1. Isi pengaturan berikut:
 
     | Settings | Value |
     | --- | --- |
-    | Subscription | the name of your Azure subscription |
-    | Resource group | `az104-rg-region2` (If necessary, select **Create new**) |
+    | Subscription | Nama langganan Anda |
+    | Resource group | `az104-rg-region2` (buat baru jika perlu) |
     | Vault Name | `az104-rsv-region2` |
     | Region | **Southeast Asia** |
 
-    >**Note**: Make sure that you specify a **different** region than the virtual machine.
+1. Klik **Review + Create** lalu **Create**.
 
-1. Click **Review + Create**, ensure that the validation passes and then click **Create**.
+1. Cari dan pilih mesin virtual **az104-10-vm0**.
 
-    >**Note**: Wait for the deployment to complete. The deployment should take a couple of minutes. 
+1. Pada blade **Backup + Disaster recovery**, pilih **Disaster recovery**.
 
-1. Search for and select the `az104-10-vm0` virtual machine.
+1. Tinjau **Target region**.
 
-1. In the **Backup + Disaster recovery** blade, select **Disaster recovery**. 
+1. Klik **Next: Advanced settings** dan buat akun otomatisasi jika diminta.
 
-1. On the **Basics** tab, notice the **Target region**.
+1. Klik **Review + Start replication**, lalu **Enable replication**.
 
-1. Select **Next: Advanced settings**. Resource selections have been made for you. 
+1. Setelah replikasi selesai (sekitar 10–15 menit), cari Recovery Services vault `az104-rsv-region2`.
 
-1. Scroll down and **Create** the automation account. 
+1. Klik **Protected items** > **Replicated items**.
 
-   >**Note:** It is important the settings be populated, or the validation will fail. 
+1. Tinjau status kesehatan replikasi. Status akan berubah menjadi **Protected** setelah sinkronisasi selesai.
 
-1. Select **Review + Start replication** and then **Enable replication**.
+1. Klik nama mesin virtual untuk melihat detail.
 
-    >**Note**: Enabling replication will take a 10-15 minutes. Watch the notification messages in the upper right of the portal. While you wait, consider reviewing the self-paced training links at the end of this page.
-    
-1. Once the replication is complete, search for and locate your Recovery Services Vault, **az104-rsv-region2**. You may need to **Refresh** the page. 
-
-1. In the **Protected items** section, select **Replicated items**.
-
-1. Check that the virtual machine is showing as healthy for the replication health. Note that the status will show the synchronization (starting at 0%) status and ultimately show **Protected** after the initial synchronization completes.
-
-   ![Screenshot of the replicated items page.](../media/az104-lab10-replicated-items.png)
-
-1. Select the virtual machine to view more details.
-   
->**Did you know?** It is a good practice to [test the failover of a protected VM](https://learn.microsoft.com/azure/site-recovery/tutorial-dr-drill-azure#run-a-test-failover-for-a-single-vm).
+>**Tahukah Anda?** Sebaiknya lakukan [uji failover VM yang dilindungi](https://learn.microsoft.com/azure/site-recovery/tutorial-dr-drill-azure#run-a-test-failover-for-a-single-vm).
 
 ## Cleanup your resources
 
-If you are working with **your own subscription** take a minute to delete the lab resources. This will ensure resources are freed up and cost is minimized. The easiest way to delete the lab resources is to delete the lab resource group. 
+Jika Anda menggunakan **langganan Anda sendiri**, pastikan untuk menghapus resource lab agar tidak dikenakan biaya tambahan. Cara termudah adalah dengan menghapus resource group:
 
-+ In the Azure portal, select the resource group, select **Delete the resource group**, **Enter resource group name**, and then click **Delete**.
-+ Using Azure PowerShell, `Remove-AzResourceGroup -Name resourceGroupName`.
-+ Using the CLI, `az group delete --name resourceGroupName`.
++ Di Azure portal: pilih resource group, pilih **Delete**, masukkan namanya, lalu konfirmasi.
++ Menggunakan PowerShell: `Remove-AzResourceGroup -Name resourceGroupName`
++ Menggunakan CLI: `az group delete --name resourceGroupName`
 
 ## Extend your learning with Copilot
-Copilot can assist you in learning how to use the Azure scripting tools. Copilot can also assist in areas not covered in the lab or where you need more information. Open an Edge browser and choose Copilot (top right) or navigate to *copilot.microsoft.com*. Take a few minutes to try these prompts.
+
+Copilot dapat membantu Anda mempelajari penggunaan alat skrip Azure. Coba beberapa prompt berikut di *copilot.microsoft.com*:
 
 + What products does Azure Backup support?
 + Summarize the steps for backing up and restoring an Azure virtual machine with Azure Backup.
-+ How can I use Azure PowerShell or the CLI to check the status of an Azure Backup job.
++ How can I use Azure PowerShell or the CLI to check the status of an Azure Backup job?
 + Provide at least five best practices for configuring Azure virtual machine backups.  
 
 ## Learn more with self-paced training
 
-+ [Protect your virtual machines by using Azure Backup](https://learn.microsoft.com/training/modules/protect-virtual-machines-with-azure-backup/). Use Azure Backup to help protect on-premises servers, virtual machines, SQL Server, Azure file shares, and other workloads.
-+ [Protect your Azure infrastructure with Azure Site Recovery](https://learn.microsoft.com/en-us/training/modules/protect-infrastructure-with-site-recovery/). Provide disaster recovery for your Azure infrastructure by customizing replication, failover, and failback of Azure virtual machines with Azure Site Recovery.
++ [Protect your virtual machines by using Azure Backup](https://learn.microsoft.com/training/modules/protect-virtual-machines-with-azure-backup/)
++ [Protect your Azure infrastructure with Azure Site Recovery](https://learn.microsoft.com/en-us/training/modules/protect-infrastructure-with-site-recovery/)
 
 ## Key takeaways
 
-Congratulations on completing the lab. Here are the main takeaways for this lab. 
+Selamat, Anda telah menyelesaikan lab ini. Berikut ringkasan hal-hal penting:
 
-+ Azure Backup service provides simple, secure, and cost-effective solutions to back up and recover your data.
-+ Azure Backup can protect on-premises and cloud resources including virtual machines and file shares.
-+ Azure Backup policies configure the frequency of backups and the retention period for recovery points. 
-+ Azure Site Recovery is a disaster recovery solution that provides protection for your virtual machines and applications.
-+ Azure Site Recovery replicates your workloads to a secondary site, and in the event of an outage or disaster, you can failover to the secondary site and resume operations with minimal downtime.
-+ A Recovery Services vault stores your backup data and minimizes management overhead.
++ Azure Backup adalah layanan sederhana, aman, dan hemat biaya untuk mencadangkan dan memulihkan data Anda.
++ Azure Backup dapat melindungi sumber daya on-premises dan cloud termasuk mesin virtual dan file share.
++ Kebijakan backup menentukan frekuensi pencadangan dan masa retensi.
++ Azure Site Recovery adalah solusi pemulihan bencana untuk melindungi VM dan aplikasi Anda.
++ Site Recovery mereplikasi beban kerja ke wilayah sekunder, sehingga Anda dapat melakukan failover dengan downtime minimal.
++ Recovery Services vault menyimpan data backup dan menyederhanakan pengelolaan.

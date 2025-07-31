@@ -8,19 +8,19 @@ lab:
 
 ## Lab introduction
 
-In this lab, you learn how to implement and deploy Azure Container Instances.
+Dalam lab ini, Anda akan mempelajari cara mengimplementasikan dan melakukan deployment Azure Container Instances.
 
-This lab requires an Azure subscription. Your subscription type may affect the availability of features in this lab. You may change the region, but the steps are written using **Indonesia Central**.
+Lab ini memerlukan langganan Azure. Jenis langganan Anda dapat memengaruhi ketersediaan fitur dalam lab ini. Anda boleh mengganti region, tetapi langkah-langkah ditulis menggunakan **Indonesia Central**.
 
 ## Estimated timing: 15 minutes
 
 ## Lab scenario
 
-Your organization has a web application that runs on a virtual machine in your on-premises data center. The organization wants to move all applications to the cloud but doesn't want to have a large number of servers to manage. You decide to evaluate Azure Container Instances and Docker. 
+Organisasi Anda memiliki aplikasi web yang berjalan pada virtual machine di data center lokal. Organisasi ingin memindahkan semua aplikasi ke cloud tanpa harus mengelola banyak server. Anda memutuskan untuk mengevaluasi Azure Container Instances dan Docker.
 
 ## Interactive lab simulations
 
->**Note**: The lab simulations that were previously provided have been retired.
+>**Catatan**: Simulasi lab yang sebelumnya tersedia telah dihentikan.
 
 ## Architecture diagram
 
@@ -28,89 +28,88 @@ Your organization has a web application that runs on a virtual machine in your o
 
 ## Job skills
 
-- Task 1: Deploy an Azure Container Instance using a Docker image.
-- Task 2: Test and verify deployment of an Azure Container Instance.
+- Task 1: Deploy an Azure Container Instance menggunakan Docker image.
+- Task 2: Menguji dan memverifikasi deployment Azure Container Instance.
 
-## Task 1: Deploy an Azure Container Instance using a Docker image
+## Task 1: Deploy an Azure Container Instance menggunakan Docker image
 
-In this task, you will create a simple web application using a Docker image. Docker is a platform that provides the ability to package and run applications in isolated environments called containers. Azure Container Instances provides the compute environment for the container image.
+Pada task ini, Anda akan membuat aplikasi web sederhana menggunakan Docker image. Docker adalah platform yang memungkinkan Anda mengemas dan menjalankan aplikasi dalam lingkungan terisolasi yang disebut container. Azure Container Instances menyediakan lingkungan komputasi untuk container image tersebut.
 
-1. Sign in to the **Azure portal** - `https://portal.azure.com`.
+1. Masuk ke **Azure portal** - `https://portal.azure.com`.
 
-1. In the Azure portal, search for and select `Container instances` and then, on the **Container instances** blade, click **+ Create**.
+2. Di Azure portal, cari dan pilih `Container instances`, lalu pada blade **Container instances**, klik **+ Create**.
 
-1. On the **Basics** tab of the **Create container instance** blade, specify the following settings (leave others with their default values):
+3. Pada tab **Basics** di blade **Create container instance**, isi pengaturan berikut (biarkan lainnya default):
 
     | Setting | Value |
-    | ---- | ---- |
-    | Subscription | Select your Azure subscription |
-    | Resource group | `rg9-p1` (If necessary, select **Create new**) |
+    | ------- | ----- |
+    | Subscription | Pilih langganan Azure Anda |
+    | Resource group | `rg9-p1` (Jika perlu, pilih **Create new**) |
     | Container name | `c1` |
-    | Region | **Indonesia Central** (or a region available near you)|
+    | Region | **Indonesia Central** (atau region lain yang tersedia) |
     | Image Source | **Quickstart images** |
     | Image | **mcr.microsoft.com/azuredocs/aci-helloworld:latest (Linux)** |
 
-1. Click **Next: Networking >** and specify the following settings (leave others with their default values):
+4. Klik **Next: Networking >** dan isi pengaturan berikut (biarkan lainnya default):
 
     | Setting | Value |
-    | --- | --- |
-    | DNS name label | any valid, globally unique DNS host name |
+    | ------- | ----- |
+    | DNS name label | nama host DNS unik secara global dan valid |
 
-    >**Note**: Your container will be publicly reachable at dns-name-label.region.azurecontainer.io. If you receive a **DNS name label not available** error message, specify a different value.
+    >**Catatan**: Container Anda akan dapat diakses secara publik di dns-name-label.region.azurecontainer.io. Jika Anda menerima pesan kesalahan **DNS name label not available**, gunakan nilai lain.
 
-1. Click **Next: Monitoring >** and uncheck **Enable container instance logs**. 
+5. Klik **Next: Monitoring >**, lalu hapus centang **Enable container instance logs**.
 
-1. Click **Next: Advanced >**, review the settings without making any changes.
+6. Klik **Next: Advanced >**, tinjau pengaturannya tanpa melakukan perubahan.
 
-1. Click **Review + Create**, ensure that the validation passed and then select **Create**.
+7. Klik **Review + Create**, pastikan validasi berhasil, lalu pilih **Create**.
 
-    >**Note**: Wait for the deployment to complete. This should take 2-3 minutes.
+    >**Catatan**: Tunggu hingga deployment selesai. Biasanya memakan waktu 2–3 menit.
 
-    >**Note**: While you wait, you may be interested in viewing the [code behind the sample application](https://github.com/Azure-Samples/aci-helloworld). To view the code, browse the \\app folder.
+    >**Catatan**: Sambil menunggu, Anda dapat melihat [kode sumber aplikasi contoh](https://github.com/Azure-Samples/aci-helloworld). Untuk melihat kodenya, buka folder `\app`.
 
-## Task 2: Test and verify deployment of an Azure Container Instance 
+## Task 2: Menguji dan memverifikasi deployment Azure Container Instance
 
-In this task, you review the deployment of the container instance. By default, the Azure Container Instance is accessible over port 80. After the instance has been deployed, you can navigate to the container using the DNS name that you provided in the previous task.
+Dalam task ini, Anda akan meninjau deployment container instance. Secara default, Azure Container Instance dapat diakses melalui port 80. Setelah instance berhasil dibuat, Anda dapat mengaksesnya menggunakan DNS name yang telah Anda tentukan sebelumnya.
 
-1. When the deployment completes, select **Go to resource** link.
+1. Setelah deployment selesai, klik tautan **Go to resource**.
 
-1. On the **Overview** blade of the container instance, verify that **Status** is reported as **Running**.
+2. Di blade **Overview** dari container instance, pastikan nilai **Status** adalah **Running**.
 
-1. Copy the value of the container instance **FQDN**, open a new browser tab, and navigate to the corresponding URL.
+3. Salin nilai **FQDN** dari container instance, buka tab browser baru, lalu navigasikan ke URL tersebut.
 
-     ![Screenshot of the ACI overview page in the portal.](../media/az104-lab09b-aci-overview.png)
+    ![Screenshot of the ACI overview page in the portal.](../media/az104-lab09b-aci-overview.png)
 
-1. Verify that the **Welcome to Azure Container Instance** page is displayed. Refresh the page several times to create some log entries then close the browser tab.  
+4. Pastikan halaman **Welcome to Azure Container Instance** tampil. Refresh beberapa kali untuk menghasilkan log, lalu tutup tab browser tersebut.
 
-1. In the **Settings** section of the container instance blade, click **Containers**, and then click **Logs**.
+5. Di bagian **Settings** dari blade container instance, klik **Containers**, lalu klik **Logs**.
 
-1. Verify that you see the log entries representing the HTTP GET request generated by displaying the application in the browser.
-   
+6. Pastikan Anda melihat entri log dari HTTP GET request yang dihasilkan saat membuka aplikasi melalui browser.
+
 ## Cleanup your resources
 
-If you are working with **your own subscription** take a minute to delete the lab resources. This will ensure resources are freed up and cost is minimized. The easiest way to delete the lab resources is to delete the lab resource group. 
+Jika Anda menggunakan **langganan sendiri**, luangkan waktu untuk menghapus resource dari lab ini. Ini akan membebaskan resource dan meminimalkan biaya. Cara termudah adalah dengan menghapus resource group lab.
 
-+ In the Azure portal, select the resource group, select **Delete the resource group**, **Enter resource group name**, and then click **Delete**.
-+ Using Azure PowerShell, `Remove-AzResourceGroup -Name resourceGroupName`.
-+ Using the CLI, `az group delete --name resourceGroupName`.
++ Di Azure portal, pilih resource group, klik **Delete the resource group**, masukkan nama resource group, lalu klik **Delete**.
++ Menggunakan Azure PowerShell: `Remove-AzResourceGroup -Name resourceGroupName`
++ Menggunakan CLI: `az group delete --name resourceGroupName`
 
 ## Extend your learning with Copilot
-Copilot can assist you in learning how to use the Azure scripting tools. Copilot can also assist in areas not covered in the lab or where you need more information. Open an Edge browser and choose Copilot (top right) or navigate to *copilot.microsoft.com*. Take a few minutes to try these prompts.
 
-+ Summarize the steps to create and configure an Azure Container Instance.
-+ What are the ways I can run a serverless container on Azure?
+Copilot dapat membantu Anda mempelajari cara menggunakan alat skrip Azure. Copilot juga dapat membantu pada bagian yang tidak dibahas dalam lab ini atau saat Anda membutuhkan informasi tambahan. Buka browser Edge dan klik Copilot (kanan atas), atau kunjungi *copilot.microsoft.com*. Luangkan beberapa menit untuk mencoba perintah berikut:
+
++ Ringkas langkah-langkah untuk membuat dan mengonfigurasi Azure Container Instance.
++ Apa saja cara menjalankan container serverless di Azure?
 
 ## Learn more with self-paced training
 
-+ [Run container images in Azure Container Instances](https://learn.microsoft.com/training/modules/create-run-container-images-azure-container-instances/). Learn how Azure Container Instances can help you quickly deploy containers, how to set environment variables, and specify container restart policies.
++ [Run container images in Azure Container Instances](https://learn.microsoft.com/training/modules/create-run-container-images-azure-container-instances/). Pelajari bagaimana Azure Container Instances dapat membantu Anda melakukan deployment container dengan cepat, mengatur environment variable, dan menentukan kebijakan restart container.
 
 ## Key takeaways
 
-Congratulations on completing the lab. Here are the main takeaways for this lab. 
+Selamat, Anda telah menyelesaikan lab ini. Berikut poin-poin penting yang perlu Anda ingat:
 
-+ Azure Container Instances (ACI) is a service that enables you to deploy containers on the Microsoft Azure public cloud.
-+ ACI doesn't require you to provision or manage any underlying infrastructure.
-+ ACI supports both Linux containers and Windows containers.
-+ Workloads on ACI are usually started and stopped by some kind of process or trigger and are usually short-lived. 
-
-    
++ Azure Container Instances (ACI) adalah layanan yang memungkinkan Anda menjalankan container di public cloud Microsoft Azure.
++ ACI tidak memerlukan provisioning atau pengelolaan infrastruktur di belakang layar.
++ ACI mendukung container berbasis Linux maupun Windows.
++ Workload di ACI umumnya dijalankan berdasarkan pemicu tertentu dan bersifat sementara.
